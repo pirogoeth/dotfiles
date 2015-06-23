@@ -137,7 +137,11 @@ let g:multi_cursor_prev_key = '<S-P>'
 let g:multi_cursor_skip_key = '<S-S>'
 let g:multi_cursor_quit_key = '<Esc>'
 
-" Open a unite file buffer instead of netrc
+" Open a unite file buffer instead of netrw
 nnoremap <silent> - :Unite file buffer<CR>
+
+" CtrlP open bindings
+nnoremap <silent> <S-F> :CtrlP<CR>
+nnoremap <silent> <S-M> :CtrlPMixed<CR>
 
 autocmd BufEnter * set mouse=
