@@ -1,0 +1,7 @@
+[user]
+	name = Sean Johnson
+	email = sean.johnsonProduct@rackspace.com
+[push]
+	default = simple
+[http]
+	sslVerify = false
