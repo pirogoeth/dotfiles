@@ -120,6 +120,7 @@ function __battery_ps1() {
     _fmt=${1}
     
     [[ -z "${_fmt}" ]] && _fmt="%s"
+    [[ ! -f /sys/class/power_supply/BAT0/capacity ]] && return
 
     _batt_level="$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)"
     
