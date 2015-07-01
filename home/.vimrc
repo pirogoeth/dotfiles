@@ -67,7 +67,6 @@ let g:dwm_map_keys = 0
 " General settings
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufEnter * set mouse=
-filetype plugin on
 syntax on
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 set background=dark
@@ -91,20 +90,20 @@ set foldlevel=1
 map <Leader>cdc :cd %:p:h<CR>
 nmap \c :shell<CR>
 nmap \l :setlocal number!<CR>
-nmap \o :set paste!<CR>
+nmap \o :setlocal paste!<CR>:setlocal paste?<CR>
+nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
 nmap \A :w !sudo tee % &>/dev/null<CR>
 nmap j gj
 nmap k gk
 nmap \q :nohlsearch<CR>
-nmap <C-e> :e#<CR>
 nmap <C-n> :bnext<CR>
 nmap <C-p> :bprev<CR>
 nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
 nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
 nmap \m :set expandtab tabstop=8 shiftwidth=2 softtabstop=2<CR>
 nmap \M :set noexpandtab tabstop=8 softtabstop=4 shiftwidth=4<CR>
-nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
-cnoremap <C-a> <Home>
+xmap <silent> mq :'<,'>s/^/#/<CR>:nohl<CR>
+xmap <silent> muq :'<,'>s/^#/<CR>:nohl<CR>
 cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 cnoremap <C-d> <Delete>
@@ -115,6 +114,8 @@ cnoremap <Esc>b <S-Left>
 cnoremap <Esc>f <S-Right>
 cnoremap <Esc>d <S-right><Delete>
 cnoremap <C-g> <C-c>
+nnoremap <C-a> ^
+nnoremap <C-e> g_
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 let g:ctrlp_map = '<Leader>t'
