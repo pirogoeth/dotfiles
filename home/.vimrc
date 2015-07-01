@@ -102,8 +102,8 @@ nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
 nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
 nmap \m :set expandtab tabstop=8 shiftwidth=2 softtabstop=2<CR>
 nmap \M :set noexpandtab tabstop=8 softtabstop=4 shiftwidth=4<CR>
-xmap <silent> mq :'<,'>s/^/#/<CR>:nohl<CR>
-xmap <silent> muq :'<,'>s/^#/<CR>:nohl<CR>
+xmap <silent> mq :s/^/#/g<CR>:nohl<CR>
+xmap <silent> muq :s/^#//g<CR>:nohl<CR>
 cnoremap <C-g> <C-c>
 nnoremap <C-a> ^
 nnoremap <C-e> g_
