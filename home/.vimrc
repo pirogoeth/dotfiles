@@ -1,4 +1,3 @@
-"NeoBundle Scripts-----------------------------
 if has('vim_starting')
   set nocompatible               " Be iMproved
 
@@ -65,25 +64,46 @@ let g:lightline = {
 
 let g:dwm_map_keys = 0
 
-set expandtab tabstop=4 shiftwidth=4 softtabstop=4
+" General settings
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+autocmd BufEnter * set mouse=
+filetype plugin on
 syntax on
+set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 set background=dark
 set number
-nmap \S :SyntasticCheck<CR>
-nmap \s :SyntasticToggleMode<CR>
 set encoding=utf8
 set laststatus=2
 set fillchars+=stl:\ ,stlnc:\
-set t_Co=256
-set foldmethod=marker
-filetype plugin on
-nmap \c :shell<CR>
+set incsearch
+set ignorecase
+set smartcase
+set hlsearch
+set t_Co=256 " Set the number of terminal colors
 
+" Code folding settings
+set foldmethod=indent
+set foldnestmax=10
+set nofoldenable
+set foldlevel=1
+
+" Magical key bindings!
+map <Leader>cdc :cd %:p:h<CR>
+nmap \c :shell<CR>
 nmap \l :setlocal number!<CR>
 nmap \o :set paste!<CR>
 nmap \A :w !sudo tee % &>/dev/null<CR>
 nmap j gj
 nmap k gk
+nmap \q :nohlsearch<CR>
+nmap <C-e> :e#<CR>
+nmap <C-n> :bnext<CR>
+nmap <C-p> :bprev<CR>
+nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
+nmap \m :set expandtab tabstop=8 shiftwidth=2 softtabstop=2<CR>
+nmap \M :set noexpandtab tabstop=8 softtabstop=4 shiftwidth=4<CR>
+nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
 cnoremap <C-a> <Home>
 cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
@@ -95,20 +115,6 @@ cnoremap <Esc>b <S-Left>
 cnoremap <Esc>f <S-Right>
 cnoremap <Esc>d <S-right><Delete>
 cnoremap <C-g> <C-c>
-set incsearch
-set ignorecase
-set smartcase
-set hlsearch
-nmap \q :nohlsearch<CR>
-nmap <C-e> :e#<CR>
-nmap <C-n> :bnext<CR>
-nmap <C-p> :bprev<CR>
-nmap ; :CtrlPBuffer<CR>
-nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
-nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
-nmap \m :set expandtab tabstop=8 shiftwidth=2 softtabstop=2<CR>
-nmap \M :set noexpandtab tabstop=8 softtabstop=4 shiftwidth=4<CR>
-nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 let g:ctrlp_map = '<Leader>t'
@@ -120,6 +126,10 @@ let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = -1
 let g:pydoc_cmd = '/usr/local/bin/pydoc'
 let g:pydoc_open_cmd = 'vsplit'
+
+" Syntastic bindings
+nmap \S :SyntasticCheck<CR>
+nmap \s :SyntasticToggleMode<CR>
 
 " Custom DWM mapping
 nmap <silent> <C-n> :call DWM_New()<CR>
@@ -141,7 +151,6 @@ let g:multi_cursor_quit_key = '<Esc>'
 nnoremap <silent> - :Unite file buffer<CR>
 
 " CtrlP open bindings
+nmap <silent> ; :CtrlPBuffer<CR>
 nnoremap <silent> <S-F> :CtrlP<CR>
 nnoremap <silent> <S-M> :CtrlPMixed<CR>
-
-autocmd BufEnter * set mouse=

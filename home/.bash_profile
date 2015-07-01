@@ -8,6 +8,7 @@ PROFILE_LOADED="yes";   export PROFILE_LOADED
 
 # Add rvm gems and nginx to the path
 # export PATH=$PATH:~/.gem/ruby/2.8/bin:/opt/nginx/sbin
+export PATH=$PATH:$HOME/Projects/arcanist/bin
 
 # These are normally set through /etc/login.conf.  You may override them here
 # if wanted.
