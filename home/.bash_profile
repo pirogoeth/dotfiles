@@ -47,6 +47,10 @@ export GIT_PS1_SHOWDIRTYSTATE=true
 [[ -f $HOME/.bash/bash-theme.sh ]] && \
     source $HOME/.bash/bash-theme.sh
 
+# bin loader
+[[ -f $HOME/.bash/load-bin.sh ]] && [[ -z "${BINS_LOADED}" ]] && \
+    source $HOME/.bash/load-bin.sh
+
 EDITOR=vim;   	export EDITOR
 PAGER=less;  	export PAGER
 
