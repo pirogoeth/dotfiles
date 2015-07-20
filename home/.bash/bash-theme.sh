@@ -11,7 +11,7 @@ THEME_LOADED="yes";         export THEME_LOADED
 # When I say escaped, I mean with the \[ \] bracket notation used by bash.
 
 declare -a CONTEXTS
-CONTEXTS=( "GIT_CMD" "VENV_CMD" "BATT_CMD" )
+CONTEXTS=( "GIT_CMD" "VENV_CMD" "BATT_CMD" "LAVG_CMD" )
 
 # General settings.
 RESET_COLOR="\e[0m"
@@ -127,8 +127,20 @@ function __battery_ps1() {
     printf "${_fmt}" "${_batt_level}"
 }
 
+function __load_averages_ps1() {
+    _fmt=${1}
+
+    [[ -z "${_fmt}" ]] && fmt="%s"
+    declare -a avgs
+    avgs=( $(uptime | tr -d ' ' | tr ':' ' ' | awk '{print $4}' | tr ',' ' ') )
+
+    # We want the five minute load average because why not.
+    printf "${_fmt}" "${avgs[1]}"
+}
+
 export -f ascii_color expr_eval generate_context 
 export -f __basename_ps1 __generate_uidbased_eop
+export -f __battery_ps1 __load_averages_ps1
 
 # Separator.
 _SEP="`ascii_color ${SEP_COLOR} ${SEP_CHAR}`"
@@ -155,6 +167,14 @@ if [[ "${NO_COLOR}" == "YES" ]] ; then
     BATT_CMD="__battery_ps1 \"battery: %s%%\""
 else
     BATT_CMD="__battery_ps1 \"battery: ${BATT_COLOR}%s%%${RESET_COLOR}\""
+fi
+
+# Settings for load averages context.
+LAVG_COLOR="\e[36m"
+if [[ "${NO_COLOR}" == "YES" ]] ; then
+    LAVG_CMD="__load_averages_ps1 \"load: %s\""
+else
+    LAVG_CMD="__load_averages_ps1 \"load: ${LAVG_COLOR}%s${RESET_COLOR}\""
 fi
 
 # Build the colorized dir, hoststring, etc.
