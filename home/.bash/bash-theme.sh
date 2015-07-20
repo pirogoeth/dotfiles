@@ -131,11 +131,13 @@ function __load_averages_ps1() {
     _fmt=${1}
 
     [[ -z "${_fmt}" ]] && fmt="%s"
-    declare -a avgs
-    avgs=( $(uptime | tr -d ' ' | tr ':' ' ' | awk '{print $4}' | tr ',' ' ') )
+
+    [[ ! -f /proc/loadavg ]] && echo && return
+
+    fivemin="$(cat /proc/loadavg | awk '{print $1}')"
 
     # We want the five minute load average because why not.
-    printf "${_fmt}" "${avgs[1]}"
+    printf "${_fmt}" "${fivemin}"
 }
 
 export -f ascii_color expr_eval generate_context 
