@@ -109,6 +109,7 @@ nnoremap <C-a> ^
 nnoremap <C-e> g_
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
+" CtrlP settings
 let g:ctrlp_map = '<Leader>t'
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
@@ -116,8 +117,19 @@ let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = -1
+
+" CtrlP open bindings
+nmap <silent> ; :CtrlPBuffer<CR>
+nnoremap <silent> <S-F> :CtrlP<CR>
+nnoremap <silent> <S-M> :CtrlPMixed<CR>
+
+" Pydoc settings
 let g:pydoc_cmd = '/usr/local/bin/pydoc'
 let g:pydoc_open_cmd = 'vsplit'
+
+" Jedi settings
+let g:jedi#popup_on_dot = 0
+let g:jedi#show_call_signatures = "2"
 
 " Syntastic bindings
 nmap \S :SyntasticCheck<CR>
@@ -141,8 +153,3 @@ let g:multi_cursor_quit_key = '<Esc>'
 
 " Open a unite file buffer instead of netrw
 nnoremap <silent> - :Unite file buffer<CR>
-
-" CtrlP open bindings
-nmap <silent> ; :CtrlPBuffer<CR>
-nnoremap <silent> <S-F> :CtrlP<CR>
-nnoremap <silent> <S-M> :CtrlPMixed<CR>
