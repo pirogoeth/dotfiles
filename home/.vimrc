@@ -36,6 +36,7 @@ NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'spolu/dwm.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'lepture/vim-jinja'
 
 " Flat plugins, not from a repository.
 NeoBundle 'noplaintext.vim', {
@@ -62,13 +63,12 @@ let g:lightline = {
     \ 'colorscheme': 'wombat',
     \ }
 
-let g:dwm_map_keys = 0
-
 " General settings
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufEnter * set mouse=
 syntax on
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
+set list listchars=tab:»-,trail:·,extends:»,precedes:«
 set background=dark
 set number
 set encoding=utf8
@@ -135,7 +135,9 @@ let g:jedi#show_call_signatures = "2"
 nmap \S :SyntasticCheck<CR>
 nmap \s :SyntasticToggleMode<CR>
 
-" Custom DWM mapping
+" Custom DWM mapping and settings
+let g:dwm_map_keys = 0
+
 nmap <silent> <C-n> :call DWM_New()<CR>
 nmap <silent> <C-w> :exec DWM_Close()<CR>
 nmap <silent> <C-Space> :call DWM_Focus()<CR>
