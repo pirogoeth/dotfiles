@@ -52,6 +52,7 @@ NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
 call neobundle#end()
 
 " Required:
+scriptencoding utf-8
 filetype plugin indent on
 
 " If there are uninstalled bundles found on startup,
@@ -67,8 +68,10 @@ let g:lightline = {
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufEnter * set mouse=
 syntax on
+set encoding=utf-8
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
-set list listchars=tab:»-,trail:·,extends:»,precedes:«
+set list
+set listchars=tab:»-,trail:·,extends:»,precedes:«
 set background=dark
 set number
 set encoding=utf8

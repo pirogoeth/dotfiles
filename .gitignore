@@ -1,6 +1,6 @@
 # Ignore vim bundles that are managed by NeoBundle.
-home/.vim/bundle/*
-# Except for NeoBundle and noplaintext.
+# home/.vim/bundle/*
+# # Except for NeoBundle and noplaintext.
 !home/.vim/bundle/NeoBundle.lock
 !home/.vim/bundle/neobundle.vim
 !home/.vim/bundle/.neobundle
