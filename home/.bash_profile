@@ -19,7 +19,7 @@ export PATH=$PATH:$HOME/Projects/arcanist/bin
 # if you're sure that you'll never log in via telnet or xterm or a
 # serial line.
 TERM=xterm;          	export TERM
-NO_COLOR="YES";         export NO_COLOR
+NO_COLOR="NO";         export NO_COLOR
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -61,8 +61,3 @@ ENV=$HOME/.shrc; export ENV
 [[ -z "${BASHRC_LOADED}" ]] && \
     source $HOME/.bashrc
 
-if [ -x /usr/games/fortune ] ; then /usr/games/fortune freebsd-tips ; fi
-
-source /usr/local/bin/virtualenvwrapper.sh
-
-alias trove-sync="fab -H sean-dev inova.sync"
