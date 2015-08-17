@@ -62,7 +62,3 @@ ENV=$HOME/.shrc; export ENV
     source $HOME/.bashrc
 
 if [ -x /usr/games/fortune ] ; then /usr/games/fortune freebsd-tips ; fi
-
-source /usr/local/bin/virtualenvwrapper.sh
-
-alias trove-sync="fab -H sean-dev inova.sync"
