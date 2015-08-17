@@ -19,7 +19,7 @@ export PATH=$PATH:$HOME/Projects/arcanist/bin
 # if you're sure that you'll never log in via telnet or xterm or a
 # serial line.
 TERM=xterm;          	export TERM
-NO_COLOR="YES";         export NO_COLOR
+NO_COLOR="NO";         export NO_COLOR
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
