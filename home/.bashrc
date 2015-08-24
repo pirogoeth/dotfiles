@@ -71,9 +71,22 @@ fi
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
     source /usr/share/bash-completion/bash_completion
 
- # shell options
+# shell options
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
+
+# shell functions
+function unworkon() {
+    # Check that deactivate() is defined.
+    _defined="$(type deactivate | head -n 1 | grep -q "function" 2>/dev/null)"
+    if [[ ! -z ${_defined} ]] ; then
+        deactivate 2>&1 1>/dev/null
+    fi
+
+    if [[ ! -z "${VIRTUAL_ENV}" ]] ; then
+        unset VIRTUAL_ENV
+    fi
+}
 
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"
