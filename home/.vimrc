@@ -37,6 +37,7 @@ NeoBundle 'spolu/dwm.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'lepture/vim-jinja'
+NeoBundle 'markcornick/vim-vagrant'
 
 " Flat plugins, not from a repository.
 NeoBundle 'noplaintext.vim', {
