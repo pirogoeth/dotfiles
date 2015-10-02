@@ -95,6 +95,8 @@ nmap \c :shell<CR>
 nmap \l :setlocal number!<CR>
 nmap \o :setlocal paste!<CR>:setlocal paste?<CR>
 nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
+nmap \lB :setlocal background=light<CR>
+nmap \dB :setlocal background=dark<CR>
 nmap \A :w !sudo tee % &>/dev/null<CR>
 nmap j gj
 nmap k gk
@@ -105,6 +107,8 @@ nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
 nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
 nmap \m :set expandtab tabstop=8 shiftwidth=2 softtabstop=2<CR>
 nmap \M :set noexpandtab tabstop=8 softtabstop=4 shiftwidth=4<CR>
+nmap d2u :update<CR>:e ++ff=dos<CR>:setlocal ff=unix<CR>:w<CR>
+nmap u2d :update<CR>:e ++ff=unix<CR>:setlocal ff=dos<CR>:w<CR>
 xmap <silent> mq :s/^/#/g<CR>:nohl<CR>
 xmap <silent> muq :s/^#//g<CR>:nohl<CR>
 cnoremap <C-g> <C-c>

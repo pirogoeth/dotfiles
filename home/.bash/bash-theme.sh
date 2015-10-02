@@ -27,7 +27,7 @@ FALLBACK_COLOR="\e[31m"
 # Theme elements.
 SEP_CHAR="|" # Separator
 BLC_CHAR="→" # Beginning of line
-PMT_CHAR="λ" # Prompt line 
+PMT_CHAR="λ" # Prompt line
 
 # Context color
 CONTEXT_COLOR="\e[35m"
@@ -118,12 +118,12 @@ function __generate_uidbased_eop() {
 
 function __battery_ps1() {
     _fmt=${1}
-    
+
     [[ -z "${_fmt}" ]] && _fmt="%s"
     [[ ! -f /sys/class/power_supply/BAT0/capacity ]] && return
 
     _batt_level="$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)"
-    
+
     printf "${_fmt}" "${_batt_level}"
 }
 
@@ -140,7 +140,7 @@ function __load_averages_ps1() {
     printf "${_fmt}" "${fivemin}"
 }
 
-export -f ascii_color expr_eval generate_context 
+export -f ascii_color expr_eval generate_context
 export -f __basename_ps1 __generate_uidbased_eop
 export -f __battery_ps1 __load_averages_ps1
 

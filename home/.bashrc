@@ -75,6 +75,9 @@ fi
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
+# backup the path to revert after workon/activate in venv
+export __PATH="$PATH"
+
 # shell functions
 function unworkon() {
     # Check that deactivate() is defined.
@@ -85,6 +88,11 @@ function unworkon() {
 
     if [[ ! -z "${VIRTUAL_ENV}" ]] ; then
         unset VIRTUAL_ENV
+    fi
+
+    if [[ ! -z "${__PATH}" ]] ; then
+        unset PATH
+        export PATH="${__PATH}"
     fi
 }
 
