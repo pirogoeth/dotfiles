@@ -51,6 +51,10 @@ export GIT_PS1_SHOWDIRTYSTATE=true
 [[ -f $HOME/.bash/load-bin.sh ]] && [[ -z "${BINS_LOADED}" ]] && \
     source $HOME/.bash/load-bin.sh
 
+# shutdown handler
+[[ -f $HOME/.bash/bash-shutdown.sh ]] && [[ -z "${SHUTDOWN_FC_LOADED}" ]] && \
+    source $HOME/.bash/bash-shutdown.sh
+
 EDITOR=vim;   	export EDITOR
 PAGER=less;  	export PAGER
 

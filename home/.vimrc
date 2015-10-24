@@ -116,6 +116,10 @@ cnoremap <C-g> <C-c>
 nnoremap <C-a> ^
 nnoremap <C-e> g_
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+vnoremap <silent> \db y:let @"=system('base64 -d', @")<CR>
+vnoremap <silent> \eb y:let @"=system('base64 -e', @")<Bar>:let @"=substitute(strtrans(@"), '\^@', '', 'g')<CR>
+vnoremap <silent> \idb y:let @"=system('base64 -d', @")<CR>gvP
+vnoremap <silent> \ieb y:let @"=system('base64 -e', @")<Bar>:let @"=substitute(strtrans(@"), '\^@', '', 'g')<CR>gvP
 
 " CtrlP settings
 let g:ctrlp_map = '<Leader>t'
