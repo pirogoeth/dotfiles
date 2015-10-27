@@ -78,23 +78,5 @@ export LC_ALL="en_US.UTF-8"
 # backup the path to revert after workon/activate in venv
 export __PATH="$PATH"
 
-# shell functions
-function unworkon() {
-    # Check that deactivate() is defined.
-    _defined="$(type deactivate | head -n 1 | grep -q "function" 2>/dev/null)"
-    if [[ ! -z ${_defined} ]] ; then
-        deactivate 2>&1 1>/dev/null
-    fi
-
-    if [[ ! -z "${VIRTUAL_ENV}" ]] ; then
-        unset VIRTUAL_ENV
-    fi
-
-    if [[ ! -z "${__PATH}" ]] ; then
-        unset PATH
-        export PATH="${__PATH}"
-    fi
-}
-
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"

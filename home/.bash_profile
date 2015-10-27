@@ -55,6 +55,10 @@ export GIT_PS1_SHOWDIRTYSTATE=true
 [[ -f $HOME/.bash/bash-shutdown.sh ]] && [[ -z "${SHUTDOWN_FC_LOADED}" ]] && \
     source $HOME/.bash/bash-shutdown.sh
 
+# common
+[[ -f $HOME/.bash/common.sh ]] && [[ -z "${COMMON_LOADED}" ]] && \
+    source $HOME/.bash/common.sh
+
 EDITOR=vim;   	export EDITOR
 PAGER=less;  	export PAGER
 
