@@ -8,6 +8,7 @@ BINS_LOADED="YES";      export BINS_LOADED
 
 BIN_DIR="${HOME}/.bin"
 if [[ -d "${BIN_DIR}" ]] ; then
+    PATH="${PATH}:${BIN_DIR}";    export PATH
     for subdir in $(ls $BIN_DIR) ; do
         subdir="${BIN_DIR}/${subdir}"
         if [[ -d "${subdir}/bin" ]] ; then
