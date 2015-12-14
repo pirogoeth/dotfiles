@@ -6,7 +6,6 @@ PROFILE_LOADED="yes";   export PROFILE_LOADED
 # Load RVM, if you are using it
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 
-# Add rvm gems and nginx to the path
 # export PATH=$PATH:~/.gem/ruby/2.8/bin:/opt/nginx/sbin
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/local/sbin:/usr/local/bin
 

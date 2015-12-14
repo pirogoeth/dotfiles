@@ -75,6 +75,7 @@ fi
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export GOPATH="$HOME/.go"
+export PATH="$PATH:$GOPATH/bin"
 
 # backup the path to revert after workon/activate in venv
 export __PATH="$PATH"
