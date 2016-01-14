@@ -47,6 +47,13 @@ HOST_CHAR="\\h"
 DIR_CHAR="\\w"
 UHSEP_CHAR="@"
 
+# Set short form under 80 columns.
+if [[ "$(tput cols)" -lt "80" ]] ; then
+    BT_SHORT="YES"
+else
+    BT_SHORT="NO"
+fi
+
 # Helper functions.
 function ascii_color() {
     _color=${1}
@@ -149,34 +156,70 @@ _SEP="`ascii_color ${SEP_COLOR} ${SEP_CHAR}`"
 
 # Settings for the git branch context.
 GIT_COLOR="\e[34m"
+GIT_SHORT_SYM="\u2387"
 if [[ "${NO_COLOR}" == "YES" ]] ; then
-    GIT_CMD="__git_ps1 \"branch: %s\" 2>/dev/null"
+    if [[ "${BT_SHORT}" == "YES" ]] ; then
+        GIT_CMD="__git_ps1 \"${GIT_SHORT_SYM}: %s\" 2>/dev/null"
+    else
+        GIT_CMD="__git_ps1 \"branch: %s\" 2>/dev/null"
+    fi
 else
-    GIT_CMD="__git_ps1 \"branch: ${GIT_COLOR}%s${RESET_COLOR}\" 2>/dev/null"
+    if [[ "${BT_SHORT}" == "YES" ]] ; then
+        GIT_CMD="__git_ps1 \"${GIT_SHORT_SYM}: ${GIT_COLOR}%s${RESET_COLOR}\" 2>/dev/null"
+    else
+        GIT_CMD="__git_ps1 \"branch: ${GIT_COLOR}%s${RESET_COLOR}\" 2>/dev/null"
+    fi
 fi
 
 # Settings for the virtualenv context.
 VENV_COLOR="\e[34m"
+VENV_SHORT_SYM="\u267b"
 if [[ "${NO_COLOR}" == "YES" ]] ; then
-    VENV_CMD="__basename_ps1 \"virtualenv: %s\" \"\${VIRTUAL_ENV}\""
+    if [[ "${BT_SHORT}" == "YES" ]] ; then
+        VENV_CMD="__basename_ps1 \"${VENV_SHORT_SYM}: %s\" \"\${VIRTUAL_ENV}\""
+    else
+        VENV_CMD="__basename_ps1 \"virtualenv: %s\" \"\${VIRTUAL_ENV}\""
+    fi
 else
-    VENV_CMD="__basename_ps1 \"virtualenv: ${VENV_COLOR}%s${RESET_COLOR}\" \"\${VIRTUAL_ENV}\""
+    if [[ "${BT_SHORT}" == "YES" ]] ; then
+        VENV_CMD="__basename_ps1 \"${VENV_SHORT_SYM}: ${VENV_COLOR}%s${RESET_COLOR}\" \"\${VIRTUAL_ENV}\""
+    else
+        VENV_CMD="__basename_ps1 \"virtualenv: ${VENV_COLOR}%s${RESET_COLOR}\" \"\${VIRTUAL_ENV}\""
+    fi
 fi
 
 # Settings for battery level context.
 BATT_COLOR="\e[36m"
+BATT_SHORT_SYM="\u1f50b"
 if [[ "${NO_COLOR}" == "YES" ]] ; then
-    BATT_CMD="__battery_ps1 \"battery: %s%%\""
+    if [[ "${BT_SHORT}" == "YES" ]] ; then
+        BATT_CMD="__battery_ps1 \"${BATT_SHORT_SYM}: %s%%\""
+    else
+        BATT_CMD="__battery_ps1 \"battery: %s%%\""
+    fi
 else
-    BATT_CMD="__battery_ps1 \"battery: ${BATT_COLOR}%s%%${RESET_COLOR}\""
+    if [[ "${BT_SHORT}" == "YES" ]] ; then
+        BATT_CMD="__battery_ps1 \"${BATT_SHORT_SYM}: ${BATT_COLOR}%s%%${RESET_COLOR}\""
+    else
+        BATT_CMD="__battery_ps1 \"battery: ${BATT_COLOR}%s%%${RESET_COLOR}\""
+    fi
 fi
 
 # Settings for load averages context.
 LAVG_COLOR="\e[36m"
+LAVG_SHORT_SYM="\u2300"
 if [[ "${NO_COLOR}" == "YES" ]] ; then
-    LAVG_CMD="__load_averages_ps1 \"load: %s\""
+    if [[ "${BT_SHORT}" == "YES" ]] ; then
+        LAVG_CMD="__load_averages_ps1 \"${LAVG_SHORT_SYM}: %s\""
+    else
+        LAVG_CMD="__load_averages_ps1 \"load: %s\""
+    fi
 else
-    LAVG_CMD="__load_averages_ps1 \"load: ${LAVG_COLOR}%s${RESET_COLOR}\""
+    if [[ "${BT_SHORT}" == "YES" ]] ; then
+        LAVG_CMD="__load_averages_ps1 \"${LAVG_SHORT_SYM}: ${LAVG_COLOR}%s${RESET_COLOR}\""
+    else
+        LAVG_CMD="__load_averages_ps1 \"load: ${LAVG_COLOR}%s${RESET_COLOR}\""
+    fi
 fi
 
 # Build the colorized dir, hoststring, etc.

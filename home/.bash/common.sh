@@ -10,6 +10,12 @@ function __bshu_watson() {
         return 1;
     fi
 
+    ## Make sure this is the only session left before stopping
+    _num_sessions="$(w | grep ${USER} | wc -l)"
+    if [[ "${_num_sessions}" != "1" ]] ; then
+        return 0;
+    fi
+
     _status="$(${watson_path} status | tr -d '\n')"
     if [[ "${_status}" == "No project started" ]] ; then
         return 0;

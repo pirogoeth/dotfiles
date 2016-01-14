@@ -39,8 +39,13 @@ export GIT_PS1_SHOWDIRTYSTATE=true
 # git completion and prompt
 [[ -f $HOME/.bash/git-completion.sh ]] && \
     source $HOME/.bash/git-completion.sh
+
 [[ -f $HOME/.bash/git-prompt.sh ]] && \
     source $HOME/.bash/git-prompt.sh
+
+# additional bash completions
+[[ -f $HOME/.bash/watson.completion ]] && \
+    source $HOME/.bash/watson.completion
 
 # bash theme
 [[ -f $HOME/.bash/bash-theme.sh ]] && \
