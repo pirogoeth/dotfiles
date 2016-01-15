@@ -156,7 +156,7 @@ _SEP="`ascii_color ${SEP_COLOR} ${SEP_CHAR}`"
 
 # Settings for the git branch context.
 GIT_COLOR="\e[34m"
-GIT_SHORT_SYM="\u2387"
+GIT_SHORT_SYM="\u21cc"
 if [[ "${NO_COLOR}" == "YES" ]] ; then
     if [[ "${BT_SHORT}" == "YES" ]] ; then
         GIT_CMD="__git_ps1 \"${GIT_SHORT_SYM}: %s\" 2>/dev/null"
