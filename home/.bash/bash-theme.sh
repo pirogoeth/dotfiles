@@ -10,6 +10,11 @@ THEME_LOADED="yes";         export THEME_LOADED
 # themselves contain the escapes (see ~L116)
 # When I say escaped, I mean with the \[ \] bracket notation used by bash.
 
+# External envvars to control display settings:
+#   BT_SHORT -> Use symbolic prompt instead of long context names
+#   COLOR_BRACKETING -> Enable/disable color bracketing (use of SOH, STX)
+#   NO_COLOR -> Disable prompt coloring
+
 declare -a CONTEXTS
 CONTEXTS=( "GIT_CMD" "VENV_CMD" "BATT_CMD" "LAVG_CMD" )
 
@@ -46,6 +51,13 @@ HOST_CHAR="\\h"
 DIR_CHAR="\\w"
 UHSEP_CHAR="@"
 
+# Bash non-visible character escape codes
+BASH_SOH='\['
+BASH_STX='\]'
+
+ASC_SOH="\001"
+ASC_STX="\002"
+
 # Set short form under 80 columns.
 if [[ "$(tput cols)" -lt "80" ]] ; then
     BT_SHORT="YES"
@@ -62,10 +74,24 @@ fi
 function ascii_color() {
     _color=${1}
     _char=${2}
+    _bracket=${3}
+
     _reset=${RESET_COLOR}
 
     if [[ -z ${_color} || -z ${_char} ]] ; then
         echo ""
+    fi
+
+    if [[ -z ${_bracket} ]] ; then
+        _bracket="BASH"
+    fi
+
+    if [[ "${_bracket}" == "ASCII" ]] ; then
+        _open=${ASC_SOH}
+        _close=${ASC_STX}
+    elif [[ "${_bracket}" == "BASH" ]] ; then
+        _open=${BASH_SOH}
+        _close=${BASH_STX}
     fi
 
     if [[ "${_color}" == "NONE" ]] ; then
@@ -79,7 +105,7 @@ function ascii_color() {
     fi
 
     if [[ "${COLOR_BRACKETING}" == "YES" ]] ; then
-        echo -e "\001${_color}\002${_char}\001${_reset}\002"
+        echo -e "${_open}${_color}${_close}${_char}${_open}${_reset}${_close}"
     else
         echo -e "${_color}${_char}${_reset}"
     fi
@@ -87,7 +113,7 @@ function ascii_color() {
 
 function expr_eval() {
     _expr=${1}
-    echo $(eval "${_expr}" 2>/dev/null)
+    echo "$(eval "${_expr}" 2>/dev/null)"
 }
 
 function generate_context() {
@@ -101,16 +127,16 @@ function generate_context() {
         # Print the separator.
         if [[ ${i} < ${#CONTEXTS[@]} ]] ; then
             if [[ "${NO_COLOR}" == "YES" ]] ; then
-                echo -en "$(ascii_color NONE ${_SEP}) "
+                echo -en "$(ascii_color NONE ${SEP_CHAR} ASCII) "
             else
-                echo -en "$(ascii_color NONE ${_SEP}${RESET_COLOR}) "
+                echo -en "$(ascii_color ${SEP_COLOR} ${SEP_CHAR} ASCII) "
             fi
         fi
         if [[ "${NO_COLOR}" == "YES" ]] ; then
             echo -en "$(eval ${val}) "
         else
             _tmp="$(eval ${val})"
-            echo -en "$(ascii_color ${CTX_COLOR} "${_tmp}") "
+            echo -en "$(ascii_color ${CTX_COLOR} "${_tmp}" ASCII) "
         fi
     done
 }
@@ -132,9 +158,9 @@ function __generate_uidbased_eop() {
     _eop=${1}
 
     if [[ $EUID == 0 ]] ; then
-        echo -en "$(ascii_color ${ROOT_COLOR} ${_eop})"
+        echo -en "$(ascii_color ${ROOT_COLOR} ${_eop} ASCII)"
     else
-        echo -en "$(ascii_color ${USER_COLOR} ${_eop})"
+        echo -en "$(ascii_color ${USER_COLOR} ${_eop} ASCII)"
     fi
 }
 
@@ -167,7 +193,7 @@ export -f __basename_ps1 __generate_uidbased_eop
 export -f __battery_ps1 __load_averages_ps1
 
 # Separator.
-_SEP="`ascii_color ${SEP_COLOR} ${SEP_CHAR}`"
+_SEP="$(ascii_color ${SEP_COLOR} ${SEP_CHAR})"
 
 # Settings for the git branch context.
 GIT_COLOR="\e[36m"
@@ -238,12 +264,12 @@ else
 fi
 
 # Build the colorized dir, hoststring, etc.
-_blc="`ascii_color ${BLC_COLOR} ${BLC_CHAR}`"
-_uns="`ascii_color ${UNAME_COLOR} ${USER_CHAR}`"
-_uhs="`ascii_color ${UHSEP_COLOR} ${UHSEP_CHAR}`"
-_hns="`ascii_color ${HNAME_COLOR} ${HOST_CHAR}`"
-_dir="`ascii_color ${DIR_COLOR} ${DIR_CHAR}`"
-_fb_eop="`ascii_color ${FALLBACK_COLOR} ${PMT_CHAR}`"
+_blc="$(ascii_color ${BLC_COLOR} ${BLC_CHAR})"
+_uns="$(ascii_color ${UNAME_COLOR} ${USER_CHAR})"
+_uhs="$(ascii_color ${UHSEP_COLOR} ${UHSEP_CHAR})"
+_hns="$(ascii_color ${HNAME_COLOR} ${HOST_CHAR})"
+_dir="$(ascii_color ${DIR_COLOR} ${DIR_CHAR})"
+_fb_eop="$(ascii_color ${FALLBACK_COLOR} ${PMT_CHAR})"
 
 GEN_CTX="generate_context 2>/dev/null || echo"
 GEN_EOP="__generate_uidbased_eop ${PMT_CHAR} 2>/dev/null || echo -n \"${_fb_eop}\""
