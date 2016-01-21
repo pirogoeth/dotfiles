@@ -15,7 +15,6 @@ CONTEXTS=( "GIT_CMD" "VENV_CMD" "BATT_CMD" "LAVG_CMD" )
 
 # General settings.
 RESET_COLOR="\e[0m"
-RESET_COLOR_ESC="\[\e[0m\]"
 DIR_COLOR="\e[32m"
 CTX_COLOR="\e[32m"
 
@@ -33,7 +32,7 @@ PMT_CHAR="λ" # Prompt line
 CONTEXT_COLOR="\e[35m"
 
 # Color for theme elements
-SEP_COLOR="\e[30m"
+SEP_COLOR="\e[97m"
 BLC_COLOR="\e[32m"
 
 # Host string settings.
@@ -54,13 +53,24 @@ else
     BT_SHORT="NO"
 fi
 
+# Check for bracketing setting.
+if [[ -z "${COLOR_BRACKETING}" ]] ; then
+    COLOR_BRACKETING="NO"
+fi
+
 # Helper functions.
 function ascii_color() {
     _color=${1}
     _char=${2}
+    _reset=${RESET_COLOR}
 
     if [[ -z ${_color} || -z ${_char} ]] ; then
         echo ""
+    fi
+
+    if [[ "${_color}" == "NONE" ]] ; then
+        _color=""
+        _reset=""
     fi
 
     if [[ "${NO_COLOR}" == "YES" ]] ; then
@@ -68,7 +78,11 @@ function ascii_color() {
         return
     fi
 
-    echo -e "\001${_color}\002${_char}\001${RESET_COLOR}\002"
+    if [[ "${COLOR_BRACKETING}" == "YES" ]] ; then
+        echo -e "\001${_color}\002${_char}\001${_reset}\002"
+    else
+        echo -e "${_color}${_char}${_reset}"
+    fi
 }
 
 function expr_eval() {
@@ -87,15 +101,16 @@ function generate_context() {
         # Print the separator.
         if [[ ${i} < ${#CONTEXTS[@]} ]] ; then
             if [[ "${NO_COLOR}" == "YES" ]] ; then
-                echo -en "\001${_SEP}\002 "
+                echo -en "$(ascii_color NONE ${_SEP}) "
             else
-                echo -en "\001${_SEP}${RESET_COLOR}\002 "
+                echo -en "$(ascii_color NONE ${_SEP}${RESET_COLOR}) "
             fi
         fi
         if [[ "${NO_COLOR}" == "YES" ]] ; then
             echo -en "$(eval ${val}) "
         else
-            echo -en "\001${CTX_COLOR}$(eval ${val})${RESET_COLOR}\002 "
+            _tmp="$(eval ${val})"
+            echo -en "$(ascii_color ${CTX_COLOR} "${_tmp}") "
         fi
     done
 }
@@ -155,7 +170,7 @@ export -f __battery_ps1 __load_averages_ps1
 _SEP="`ascii_color ${SEP_COLOR} ${SEP_CHAR}`"
 
 # Settings for the git branch context.
-GIT_COLOR="\e[34m"
+GIT_COLOR="\e[36m"
 GIT_SHORT_SYM="\u21cc"
 if [[ "${NO_COLOR}" == "YES" ]] ; then
     if [[ "${BT_SHORT}" == "YES" ]] ; then
@@ -172,7 +187,7 @@ else
 fi
 
 # Settings for the virtualenv context.
-VENV_COLOR="\e[34m"
+VENV_COLOR="\e[36m"
 VENV_SHORT_SYM="\u267b"
 if [[ "${NO_COLOR}" == "YES" ]] ; then
     if [[ "${BT_SHORT}" == "YES" ]] ; then

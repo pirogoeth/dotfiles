@@ -17,8 +17,8 @@ export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/local/sbin:/usr/local/
 # Setting TERM is normally done through /etc/ttys.  Do only override
 # if you're sure that you'll never log in via telnet or xterm or a
 # serial line.
-TERM=xterm;          	export TERM
-NO_COLOR="NO";         export NO_COLOR
+TERM="xterm-256color"; export TERM
+# NO_COLOR="YES";        export NO_COLOR
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
