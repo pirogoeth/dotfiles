@@ -231,7 +231,7 @@ fi
 
 # Settings for battery level context.
 BATT_COLOR="\e[36m"
-BATT_SHORT_SYM="\u1f50b"
+BATT_SHORT_SYM="\u2622"
 if [[ "${NO_COLOR}" == "YES" ]] ; then
     if [[ "${BT_SHORT}" == "YES" ]] ; then
         BATT_CMD="__battery_ps1 \"${BATT_SHORT_SYM}: %s%%\""
