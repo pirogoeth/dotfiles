@@ -38,6 +38,7 @@ NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'lepture/vim-jinja'
 NeoBundle 'markcornick/vim-vagrant'
+" NeoBundle 'artur-shaik/vim-javacomplete2'
 
 " Flat plugins, not from a repository.
 NeoBundle 'noplaintext.vim', {
@@ -68,6 +69,7 @@ let g:lightline = {
 " General settings
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufEnter * set mouse=
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
 syntax on
 set encoding=utf-8
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4

@@ -76,8 +76,15 @@ PAGER=less;  	export PAGER
 # set ENV to a file invoked each time sh is started for interactive use.
 ENV=$HOME/.shrc; export ENV
 
+# load alias for using thefuck (thefuck on pypi)
+[[ $(which thefuck || false) ]] && \
+    eval "$(thefuck --alias)"
+
 # Check if the bashrc was loaded, and source it if not.
 [[ -z "${BASHRC_LOADED}" ]] && \
     source $HOME/.bashrc
+
+[[ -f $HOME/.localrc ]] &&
+    source $HOME/.localrc
 
 if [ -x /usr/games/fortune ] ; then /usr/games/fortune freebsd-tips ; fi

@@ -10,9 +10,9 @@ function __bshu_watson() {
         return 1;
     fi
 
-    ## Make sure this is the only session left before stopping
-    _num_sessions="$(w | grep ${USER} | wc -l)"
-    if [[ "${_num_sessions}" != "1" ]] ; then
+    # Only kill the agent if this is the only session.
+    num_sessions=$(w | grep $USER | grep -E "pts|tty" | wc -l)
+    if [[ $num_sessions -gt 1 ]] ; then
         return 0;
     fi
 
@@ -33,6 +33,51 @@ function __bshu_watson() {
     fi
 }
 
+function __bshu_gpgagent_stop() {
+    AGENT_INFO="${HOME}/.gpg-agent-info"
+
+    # Only kill the agent if this is the only session.
+    num_sessions=$(w | grep $USER | grep -E "pts|tty" | wc -l)
+    if [[ $num_sessions -gt 1 ]] ; then
+        return 0;
+    fi
+
+    [[ -f ${AGENT_INFO} ]] && \
+        source ${AGENT_INFO}
+
+    agent_pid=$(ps aux | grep gpg-agent | grep -v grep | awk '$1 == "'$USER'" {print $2}')
+    if [[ -z "${agent_pid}" ]] ; then
+        # No agent was found running...?
+        return 1;
+    fi
+
+    # First, try to gracefully terminate the agent
+    gpg_resp=$(gpg-connect-agent killagent /bye)
+
+    agent_pid=$(ps aux | grep gpg-agent | grep -v grep | awk '$1 == "'$USER'" {print $2}')
+    if [[ -z "${agent_pid}" ]] ; then
+        # No agent is running, graceful kill successful!
+        logger -p local0.notice -t gpg-agent "Stopped gpg-agent for ${USER}"
+    fi
+
+    # Delete the agent info file, if it exists
+    [[ -f ${AGENT_INFO} ]] && rm ${AGENT_INFO}
+
+    # Try to kill the agent pid
+    kill ${agent_pid} 2>&1 1>/dev/null
+
+    # Check the result and log accordingly
+    kill_res="$?"
+    if [[ "${kill_res}" != "0" ]] ; then
+        logger -p local0.warning -t gpg-agent "Could not stop gpg-agent for ${USER}: error code: ${kill_res}"
+        return 2;
+    fi
+
+    logger -p local0.notice -t gpg-agent "Killed gpg-agent for ${USER}"
+
+    return 0;
+}
+
 function unworkon() {
     # Check that deactivate() is defined.
     _defined="$(type deactivate | head -n 1 | grep -q "function" 2>/dev/null)"
@@ -50,4 +95,5 @@ function unworkon() {
     fi
 }
 
+bshu_add_func __bshu_gpgagent_stop
 bshu_add_func __bshu_watson
