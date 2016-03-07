@@ -38,7 +38,7 @@ NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'lepture/vim-jinja'
 NeoBundle 'markcornick/vim-vagrant'
-" NeoBundle 'artur-shaik/vim-javacomplete2'
+NeoBundle 'pearofducks/ansible-vim'
 
 " Flat plugins, not from a repository.
 NeoBundle 'noplaintext.vim', {
@@ -124,7 +124,7 @@ vnoremap <silent> \idb y:let @"=system('base64 -d', @")<CR>gvP
 vnoremap <silent> \ieb y:let @"=system('base64 -e', @")<Bar>:let @"=substitute(strtrans(@"), '\^@', '', 'g')<CR>gvP
 
 " CtrlP settings
-let g:ctrlp_map = '<Leader>t'
+let g:ctrlp_map = '<Leader>p'
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
