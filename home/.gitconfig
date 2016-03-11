@@ -3,5 +3,10 @@
 	email = pirogoeth@maio.me
 [push]
 	default = simple
+	gpgSign = true
 [http]
 	sslVerify = false
+[gpg]
+	program = gpg
+[commit]
+	gpgSign = true

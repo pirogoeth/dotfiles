@@ -26,12 +26,8 @@ NeoBundle 'Shougo/vimproc.vim', {
                         \ }
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'mbadran/headlights'
 NeoBundle 'tpope/vim-vinegar'
 NeoBundle 'fs111/pydoc.vim'
-NeoBundle 'davidhalter/jedi-vim'
-NeoBundle 'ervandew/supertab'
 NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'spolu/dwm.vim'
 NeoBundle 'itchyny/lightline.vim'
@@ -39,6 +35,8 @@ NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'lepture/vim-jinja'
 NeoBundle 'markcornick/vim-vagrant'
 NeoBundle 'pearofducks/ansible-vim'
+NeoBundle 'davidhalter/jedi-vim'
+NeoBundle 'ConradIrwin/vim-bracketed-paste'
 
 " Flat plugins, not from a repository.
 NeoBundle 'noplaintext.vim', {
@@ -106,22 +104,42 @@ nmap k gk
 nmap \q :nohlsearch<CR>
 nmap <C-n> :bnext<CR>
 nmap <C-p> :bprev<CR>
+cnoremap <C-g> <C-c>
+
+" tab-styling modes
 nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
 nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
+nmap \TM :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
 nmap \m :set expandtab tabstop=8 shiftwidth=2 softtabstop=2<CR>
 nmap \M :set noexpandtab tabstop=8 softtabstop=4 shiftwidth=4<CR>
+
+" convert all line endings / switch file type
 nmap d2u :update<CR>:e ++ff=dos<CR>:setlocal ff=unix<CR>:w<CR>
 nmap u2d :update<CR>:e ++ff=unix<CR>:setlocal ff=dos<CR>:w<CR>
+
+" block comment and uncomment
 xmap <silent> mq :s/^/#/g<CR>:nohl<CR>
 xmap <silent> muq :s/^#//g<CR>:nohl<CR>
-cnoremap <C-g> <C-c>
+" let g:commentchar = "#"
+" xmap <silent> mq :execute "'<,'>s/^/".g:commentchar."/g<CR>:nohl<CR>"
+" xmap <silent> muq :execute "'<,'>s/^".g:commentchar."//g<CR>:nohl<CR>"
+
+" emacs-style cursor location movers
 nnoremap <C-a> ^
 nnoremap <C-e> g_
+
+" eat all free-standing whitespace on empty lines
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+
+" clipboard & inline base64 string manipulation
 vnoremap <silent> \db y:let @"=system('base64 -d', @")<CR>
 vnoremap <silent> \eb y:let @"=system('base64 -e', @")<Bar>:let @"=substitute(strtrans(@"), '\^@', '', 'g')<CR>
 vnoremap <silent> \idb y:let @"=system('base64 -d', @")<CR>gvP
 vnoremap <silent> \ieb y:let @"=system('base64 -e', @")<Bar>:let @"=substitute(strtrans(@"), '\^@', '', 'g')<CR>gvP
+
+" mappings for location pane
+nnoremap <silent> \ol :lopen<CR>
+nnoremap <silent> \cl :lclose<CR>
 
 " CtrlP settings
 let g:ctrlp_map = '<Leader>p'
@@ -137,17 +155,24 @@ nmap <silent> ; :CtrlPBuffer<CR>
 nnoremap <silent> <S-F> :CtrlP<CR>
 nnoremap <silent> <S-M> :CtrlPMixed<CR>
 
+" Syntastic bindings
+nmap <silent> \S :SyntasticCheck<CR>
+nmap <silent> \s :SyntasticToggleMode<CR>
+
+" Syntastic settings
+let g:syntastic_check_on_open = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_aggregate_errors = 1
+
+" YCM bindings
+nmap <silent> \Y :YcmForceCompileAndDiagnostics<CR>
+nmap <silent> \yd :YcmDiags<CR>
+
 " Pydoc settings
 let g:pydoc_cmd = '/usr/local/bin/pydoc'
 let g:pydoc_open_cmd = 'vsplit'
-
-" Jedi settings
-let g:jedi#popup_on_dot = 0
-let g:jedi#show_call_signatures = "2"
-
-" Syntastic bindings
-nmap \S :SyntasticCheck<CR>
-nmap \s :SyntasticToggleMode<CR>
 
 " Custom DWM mapping and settings
 let g:dwm_map_keys = 0
