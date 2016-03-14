@@ -64,7 +64,7 @@ function __bshu_gpgagent_stop() {
     [[ -f ${AGENT_INFO} ]] && rm ${AGENT_INFO}
 
     # Try to kill the agent pid
-    kill ${agent_pid} 2>&1 1>/dev/null
+    [[ ! -z "${agent_pid}" ]] && kill ${agent_pid} 2>&1 1>/dev/null
 
     # Check the result and log accordingly
     kill_res="$?"
