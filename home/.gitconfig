@@ -3,7 +3,7 @@
 	email = pirogoeth@maio.me
 [push]
 	default = simple
-	gpgSign = true
+	gpgSign = false
 [http]
 	sslVerify = false
 [gpg]
