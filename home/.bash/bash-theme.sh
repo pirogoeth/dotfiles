@@ -16,7 +16,7 @@ THEME_LOADED="yes";         export THEME_LOADED
 #   NO_COLOR -> Disable prompt coloring
 
 declare -a CONTEXTS
-CONTEXTS=( "GIT_CMD" "VENV_CMD" "BATT_CMD" "LAVG_CMD" )
+CONTEXTS=( "SSH_CMD" "GIT_CMD" "VENV_CMD" "BATT_CMD" "LAVG_CMD" )
 
 # General settings.
 RESET_COLOR="\e[0m"
@@ -175,6 +175,17 @@ function __battery_ps1() {
     printf "${_fmt}" "${_batt_level}"
 }
 
+function __ssh_ps1() {
+    _active_out=${1}
+
+    [[ -z "${_active_out}" ]] && _active_out="SSH"
+    ( [[ -z "${SSH_CLIENT}" ]] || \
+      [[ -z "${SSH_TTY}" ]] || \
+      [[ -z "${SSH_CONNECTION}" ]] ) && return
+
+    printf "%s" "${_active_out}"
+}
+
 function __load_averages_ps1() {
     _fmt=${1}
 
@@ -191,6 +202,7 @@ function __load_averages_ps1() {
 export -f ascii_color expr_eval generate_context
 export -f __basename_ps1 __generate_uidbased_eop
 export -f __battery_ps1 __load_averages_ps1
+export -f __ssh_ps1
 
 # Separator.
 _SEP="$(ascii_color ${SEP_COLOR} ${SEP_CHAR})"
@@ -260,6 +272,23 @@ else
         LAVG_CMD="__load_averages_ps1 \"${LAVG_SHORT_SYM}: ${LAVG_COLOR}%s${RESET_COLOR}\""
     else
         LAVG_CMD="__load_averages_ps1 \"load: ${LAVG_COLOR}%s${RESET_COLOR}\""
+    fi
+fi
+
+# Settings for SSH notification context.
+SSH_COLOR="\e[31m"
+SSH_SHORT_SYM="\u260e"
+if [[ "${NO_COLOR}" == "YES" ]] ; then
+    if [[ "${BT_SHORT}" == "YES" ]] ; then
+        SSH_CMD="__ssh_ps1 \"${SSH_SHORT_SYM}\""
+    else
+        SSH_CMD="__ssh_ps1 \"SSH\""
+    fi
+else
+    if [[ "${BT_SHORT}" == "YES" ]] ; then
+        SSH_CMD="__ssh_ps1 \"${SSH_COLOR}${SSH_SHORT_SYM}${RESET_COLOR}\""
+    else
+        SSH_CMD="__ssh_ps1 \"${SSH_COLOR}SSH${RESET_COLOR}\""
     fi
 fi
 
