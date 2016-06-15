@@ -1,70 +1,70 @@
-if has('vim_starting')
+if &compatible
   set nocompatible               " Be iMproved
-
-  " Required:
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-" Required:
-call neobundle#begin(expand('~/.vim/bundle'))
+set runtimepath^=~/.vim/bundle/dein.vim/
 
-" Let NeoBundle manage NeoBundle
 " Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+call dein#begin(expand('~/.vim/bundle'))
+
+" Let dein manage dein
+" Required:
+call dein#add('Shougo/dein.vim')
 
 " Add or remove your Bundles here:
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'Shougo/vimproc.vim', {
-                        \ 'build' : {
-                        \       'linux' : 'make',
-                        \       'unix'  : 'gmake',
-                        \ },
-                        \ }
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'tpope/vim-vinegar'
-NeoBundle 'fs111/pydoc.vim'
-NeoBundle 'ekalinin/Dockerfile.vim'
-NeoBundle 'spolu/dwm.vim'
-" NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'vim-airline/vim-airline-themes'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'lepture/vim-jinja'
-NeoBundle 'markcornick/vim-vagrant'
-NeoBundle 'pearofducks/ansible-vim'
-NeoBundle 'davidhalter/jedi-vim'
-NeoBundle 'ConradIrwin/vim-bracketed-paste'
+call dein#add('Shougo/neosnippet.vim')
+call dein#add('Shougo/neosnippet-snippets')
+call dein#add('Shougo/vimshell')
+call dein#add('Shougo/unite.vim')
+call dein#add('kien/ctrlp.vim')
+call dein#add('flazz/vim-colorschemes')
+call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+call dein#add('altercation/vim-colors-solarized')
+call dein#add('scrooloose/syntastic')
+call dein#add('tpope/vim-vinegar')
+call dein#add('fs111/pydoc.vim')
+call dein#add('ekalinin/Dockerfile.vim')
+call dein#add('spolu/dwm.vim')
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
+call dein#add('terryma/vim-multiple-cursors')
+call dein#add('lepture/vim-jinja')
+call dein#add('markcornick/vim-vagrant')
+call dein#add('pearofducks/ansible-vim')
+call dein#add('rking/ag.vim')
+call dein#add('Shougo/echodoc.vim')
+call dein#add('Rip-Rip/clang_complete')
+call dein#add('xolox/vim-misc')
+call dein#add('xolox/vim-lua-ftplugin')
+
+" Neovim-specific plugins
+call dein#add('airblade/vim-gitgutter', {"if": has("nvim")})
+call dein#add('Shougo/deoplete.nvim', {"if": has("nvim") && has("python3")})
+call dein#add('zchee/deoplete-jedi', {"if": has("nvim") && has("python3")})
+call dein#add('hkupty/nvimux', {"if": has("nvim")})
+
+" Vim-original-specific plugins
+call dein#add('davidhalter/jedi-vim', {"if": !has("nvim")})
+call dein#add('ConradIrwin/vim-bracketed-paste', {"if": !has("nvim")})
 
 " Flat plugins, not from a repository.
-NeoBundle 'noplaintext.vim', {
-            \   'name' : 'noplaintext',
-            \   'type' : 'raw',
-            \   'script_type' : 'plugin'
-            \ }
-
-" You can specify revision/branch/tag.
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+call dein#local(expand('~/.vim/bundle/noplaintext.vim'), {'type': 'raw', 'script_type': 'plugin'})
 
 " Required:
-call neobundle#end()
+call dein#end()
+
+if dein#check_install()
+  call dein#install()
+endif
+
+" Enable deoplete!
+if has("nvim") && has("python3")
+  call deoplete#enable()
+endif
 
 " Required:
 scriptencoding utf-8
 filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-" End NeoBundle Scripts-------------------------
-
-let g:lightline = {
-    \ 'colorscheme': 'wombat',
-    \ }
 
 " Airline settings
 let g:airline#extensions#tabline#enabled=1
@@ -74,9 +74,11 @@ let g:airline_left_sep=''
 let g:airline_left_alt_sep=''
 let g:airline_right_sep=''
 let g:airline_right_alt_sep=''
+
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
+
 let g:airline_symbols.space = "\ua0"
 
 " General settings
@@ -84,6 +86,7 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufEnter * set mouse=
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 syntax on
+
 set encoding=utf-8
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 set list
@@ -139,10 +142,6 @@ xmap <silent> muq :s/^#//g<CR>:nohl<CR>
 " xmap <silent> mq :execute "'<,'>s/^/".g:commentchar."/g<CR>:nohl<CR>"
 " xmap <silent> muq :execute "'<,'>s/^".g:commentchar."//g<CR>:nohl<CR>"
 
-" emacs-style cursor location movers
-nnoremap <C-a> ^
-nnoremap <C-e> g_
-
 " eat all free-standing whitespace on empty lines
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
@@ -181,10 +180,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_aggregate_errors = 1
 
-" YCM bindings
-nmap <silent> \Y :YcmForceCompileAndDiagnostics<CR>
-nmap <silent> \yd :YcmDiags<CR>
-
 " Pydoc settings
 let g:pydoc_cmd = '/usr/local/bin/pydoc'
 let g:pydoc_open_cmd = 'vsplit'
@@ -192,7 +187,7 @@ let g:pydoc_open_cmd = 'vsplit'
 " Custom DWM mapping and settings
 let g:dwm_map_keys = 0
 
-nmap <silent> <C-n> :call DWM_New()<CR>
+nmap <silent> <C-i> :call DWM_New()<CR>
 nmap <silent> <C-w> :exec DWM_Close()<CR>
 nmap <silent> <C-Space> :call DWM_Focus()<CR>
 nmap <silent> <C-j> :call DWM_Rotate(0)<CR>
@@ -209,3 +204,20 @@ let g:multi_cursor_quit_key = '<Esc>'
 
 " Open a unite file buffer instead of netrw
 nnoremap <silent> - :Unite file buffer<CR>
+
+" Nvimux settings
+let g:nvimux_prefix = '<C-b>'
+
+" deoplete.nvim + completion settings
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#omni#functions_lua = 'xolox#lua#completefunc'
+
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
+let g:clang_omnicppcomplete_compliance = 0
+let g:clang_make_default_keymappings = 0
+
+let g:lua_check_syntax = 0
+let g:lua_complete_omni = 1
+let g:lua_complete_dynamic = 0
+let g:lua_define_completion_mappings = 0

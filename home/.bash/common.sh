@@ -2,7 +2,7 @@
 #
 # a bundle of functions to be used wherever
 
-COMMON_LOADED="YES";            export COMMON_LOADED
+COMMON_LOADED="yes";            export COMMON_LOADED
 
 function __bshu_watson() {
     watson_path="$(which watson)"

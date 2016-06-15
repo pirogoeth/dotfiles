@@ -1,7 +1,10 @@
-# Ignore vim bundles that are managed by NeoBundle.
-# home/.vim/bundle/*
-# # Except for NeoBundle and noplaintext.
-!home/.vim/bundle/NeoBundle.lock
-!home/.vim/bundle/neobundle.vim
-!home/.vim/bundle/.neobundle
+# Ignore vim bundles that are managed by dein.
+home/.vim/bundle/*
+# Except for dein and noplaintext.
+!home/.vim/bundle/dein.vim
 !home/.vim/bundle/noplaintext
+
+# Ignore tmux plugins that are managed by TPM.
+home/.tmux/plugins/*
+# Except for TPM itself.
+!home/.tmux/plugins/tpm/

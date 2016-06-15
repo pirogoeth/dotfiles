@@ -2,7 +2,7 @@
 
 # This script sets up a hookable shutdown system for a bash shell.
 
-SHUTDOWN_FC_LOADED="YES";       export SHUTDOWN_FC_LOADED
+SHUTDOWN_FC_LOADED="yes";       export SHUTDOWN_FC_LOADED
 
 declare -a __shutdown_func=()
 

@@ -4,7 +4,7 @@
 # folder in the user's home directory, find any subdirectories that
 # have a bin folder in them, and add that directory to the user's path/
 
-BINS_LOADED="YES";      export BINS_LOADED
+BINS_LOADED="yes";      export BINS_LOADED
 
 BIN_DIR="${HOME}/.bin"
 if [[ -d "${BIN_DIR}" ]] ; then
