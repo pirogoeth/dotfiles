@@ -41,6 +41,7 @@ call dein#add('xolox/vim-lua-ftplugin')
 call dein#add('airblade/vim-gitgutter', {"if": has("nvim")})
 call dein#add('Shougo/deoplete.nvim', {"if": has("nvim") && has("python3")})
 call dein#add('zchee/deoplete-jedi', {"if": has("nvim") && has("python3")})
+call dein#add('zchee/deoplete-go', {"if": has("nvim"), "build": "make"})
 call dein#add('hkupty/nvimux', {"if": has("nvim")})
 
 " Vim-original-specific plugins
@@ -211,6 +212,7 @@ let g:nvimux_prefix = '<C-b>'
 " deoplete.nvim + completion settings
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#omni#functions_lua = 'xolox#lua#completefunc'
+let g:deoplete#sources#go#gocode_binary = expand("~/.go/bin/gocode")
 
 let g:clang_complete_auto = 0
 let g:clang_auto_select = 0
