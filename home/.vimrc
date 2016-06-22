@@ -2,10 +2,19 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
+if has('vim_starting')
+  set encoding=utf-8
+  set t_Co=256 " Set the number of terminal colors
+endif
+
 set runtimepath^=~/.vim/bundle/dein.vim/
 
 " Required:
 call dein#begin(expand('~/.vim/bundle'))
+
+" Dein options
+let g:dein#enable_notification = 1
+let g:dein#install_progress_type = "tabline"
 
 " Let dein manage dein
 " Required:
@@ -36,12 +45,14 @@ call dein#add('Shougo/echodoc.vim')
 call dein#add('Rip-Rip/clang_complete')
 call dein#add('xolox/vim-misc')
 call dein#add('xolox/vim-lua-ftplugin')
+call dein#add('mtth/scratch.vim')
 
 " Neovim-specific plugins
 call dein#add('airblade/vim-gitgutter', {"if": has("nvim")})
 call dein#add('Shougo/deoplete.nvim', {"if": has("nvim") && has("python3")})
 call dein#add('zchee/deoplete-jedi', {"if": has("nvim") && has("python3")})
 call dein#add('zchee/deoplete-go', {"if": has("nvim"), "build": "make"})
+call dein#add('carlitux/deoplete-ternjs', {"if": has("nvim")})
 call dein#add('hkupty/nvimux', {"if": has("nvim")})
 
 " Vim-original-specific plugins
@@ -68,13 +79,13 @@ scriptencoding utf-8
 filetype plugin indent on
 
 " Airline settings
-let g:airline#extensions#tabline#enabled=1
-let g:airline_theme='wombat'
-let g:airline_powerline_fonts=0
-let g:airline_left_sep=''
-let g:airline_left_alt_sep=''
-let g:airline_right_sep=''
-let g:airline_right_alt_sep=''
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme = 'wombat'
+let g:airline_powerline_fonts = 0
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -88,20 +99,18 @@ autocmd BufEnter * set mouse=
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 syntax on
 
-set encoding=utf-8
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 set list
 set listchars=tab:»-,trail:·,extends:»,precedes:«
 set background=dark
 set number
-set encoding=utf8
 set laststatus=2
 set fillchars+=stl:\ ,stlnc:\
 set incsearch
 set ignorecase
 set smartcase
 set hlsearch
-set t_Co=256 " Set the number of terminal colors
+set hidden
 
 " Code folding settings
 set foldmethod=indent
@@ -123,6 +132,7 @@ nmap k gk
 nmap \q :nohlsearch<CR>
 nmap <C-n> :bnext<CR>
 nmap <C-p> :bprev<CR>
+nmap <C-c> <Esc>
 cnoremap <C-g> <C-c>
 
 " tab-styling modes
@@ -223,3 +233,6 @@ let g:lua_check_syntax = 0
 let g:lua_complete_omni = 1
 let g:lua_complete_dynamic = 0
 let g:lua_define_completion_mappings = 0
+
+let g:scratch_autohide = 1
+let g:scratch_persistent_file = expand('~/.vim/scratch')

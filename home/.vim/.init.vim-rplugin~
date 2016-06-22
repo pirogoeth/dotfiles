@@ -1,6 +1,6 @@
 " python3 plugins
 call remote#host#RegisterPlugin('python3', '/home/sean/.vim/bundle/repos/github.com/Shougo/deoplete.nvim/rplugin/python3/deoplete', [
-      \ {'sync': v:true, 'name': '_deoplete', 'type': 'function', 'opts': {}},
+      \ {'sync': v:true, 'name': '_deoplete', 'opts': {}, 'type': 'function'},
      \ ])
 
 

@@ -59,7 +59,8 @@ ASC_SOH="\001"
 ASC_STX="\002"
 
 # Set short form under 80 columns.
-if [[ "$(tput cols)" -lt "80" ]] ; then
+SCR_COLS="$(tput cols)"
+if [[ "$SCR_COLS" -lt "80" ]] ; then
     BT_SHORT="YES"
 else
     BT_SHORT="NO"
@@ -116,7 +117,37 @@ function expr_eval() {
     echo "$(eval "${_expr}" 2>/dev/null)"
 }
 
+function get_curpos() {
+    exec < /dev/tty
+    oldstty=$(stty -g)
+    stty raw -echo min 0
+    echo -en "\033[6n" > /dev/tty
+    IFS=';' read -r -d R -a pos
+    stty $oldstty
+    row=$(( ${pos[0]:2} - 1 )); export cur_row
+    col=$(( ${pos[1]} - 1 )); export cur_col
+}
+
+function str_length() {
+    echo $* | \
+        tr -d '[[:cntrl:]]' | \
+        awk '{ gsub(/\\[[:digit:]]+m/, "", $0); print $0 }' | \
+        tr -d '\\' | \
+        tr -d '\n' | \
+        wc -c
+}
+
+function real_static_len() {
+    echo $(( \
+        $(str_length "$_static") - \
+        2 + \
+        $(str_length "$USER") + \
+        $(str_length "`hostname`") + \
+        $(str_length "${PWD//$HOME/\~}") ))
+}
+
 function generate_context() {
+    ctx_len=0
     for (( i=0 ; $i<${#CONTEXTS[@]}; i++ ))
     do
         val="${!CONTEXTS[$i]}"
@@ -124,14 +155,25 @@ function generate_context() {
         if [[ -z "$(echo $(eval ${val}) | tr -d [:space:])" ]] ; then
             continue;
         fi
+
+        line_wrap=0
+        ctx_len=$(( ctx_len + $(str_length "$(eval ${val})") ))
+        prompt_len=$(( $ctx_len + $(real_static_len) ))
+        if [[ $prompt_len -ge $SCR_COLS ]] ; then
+            # Screen wrap!
+            echo -en "\n.. "
+            line_wrap=1
+        fi
+
         # Print the separator.
-        if [[ ${i} < ${#CONTEXTS[@]} ]] ; then
+        if [[ ${i} < ${#CONTEXTS[@]} && $line_wrap == 0 ]] ; then
             if [[ "${NO_COLOR}" == "YES" ]] ; then
                 echo -en "$(ascii_color NONE ${SEP_CHAR} ASCII) "
             else
                 echo -en "$(ascii_color ${SEP_COLOR} ${SEP_CHAR} ASCII) "
             fi
         fi
+
         if [[ "${NO_COLOR}" == "YES" ]] ; then
             echo -en "$(eval ${val}) "
         else
@@ -200,6 +242,7 @@ function __load_averages_ps1() {
 }
 
 export -f ascii_color expr_eval generate_context
+export -f str_length
 export -f __basename_ps1 __generate_uidbased_eop
 export -f __battery_ps1 __load_averages_ps1
 export -f __ssh_ps1
@@ -208,6 +251,9 @@ export -f __ssh_ps1
 _SEP="$(ascii_color ${SEP_COLOR} ${SEP_CHAR})"
 
 function bt_export_contexts() {
+    export SCR_COLS="$(tput cols)"
+    echo "Updated columns to $SCR_COLS"
+
     # Settings for the git branch context.
     GIT_COLOR="\e[36m"
     GIT_SHORT_SYM="\u21cc"
@@ -308,6 +354,8 @@ export -f bt_export_contexts
 
 bt_export_contexts
 
+trap "bt_export_contexts" WINCH
+
 # Build the colorized dir, hoststring, etc.
 _blc="$(ascii_color ${BLC_COLOR} ${BLC_CHAR})"
 _uns="$(ascii_color ${UNAME_COLOR} ${USER_CHAR})"
@@ -320,5 +368,6 @@ GEN_CTX="generate_context 2>/dev/null || echo"
 GEN_EOP="__generate_uidbased_eop ${PMT_CHAR} 2>/dev/null || echo -n \"${_fb_eop}\""
 
 # Export the PS1 and backup.
-_PS1="${_blc} ${_uns}${_uhs}${_hns} ${_SEP} ${_dir} \$(${GEN_CTX})\n\$(${GEN_EOP}) "; export _PS1
+_static="${_blc} ${_uns}${_uhs}${_hns} ${_SEP} ${_dir}"
+_PS1="${_static} \$(${GEN_CTX})\n\$(${GEN_EOP}) "; export _PS1
 PS1=${_OLD_VIRTUAL_PS1:-${_PS1}}; export PS1; readonly PS1
