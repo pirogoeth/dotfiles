@@ -132,22 +132,22 @@ function str_length() {
     echo $* | \
         tr -d '[[:cntrl:]]' | \
         awk '{ gsub(/\\[[:digit:]]+m/, "", $0); print $0 }' | \
-        tr -d '\\' | \
-        tr -d '\n' | \
+        tr -d '\n\\' | \
         wc -c
 }
 
-function real_static_len() {
+function real_prompt_len() {
     echo $(( \
-        $(str_length "$_static") - \
-        2 + \
+        $(str_length "$_static") + \
         $(str_length "$USER") + \
         $(str_length "`hostname`") + \
-        $(str_length "${PWD//$HOME/\~}") ))
+        $(str_length "${PWD//$HOME/\~}") + \
+        7 )) # Number of spaces following _static and others
 }
 
 function generate_context() {
     ctx_len=0
+    _real_plen=$(real_prompt_len)
     for (( i=0 ; $i<${#CONTEXTS[@]}; i++ ))
     do
         val="${!CONTEXTS[$i]}"
@@ -157,8 +157,8 @@ function generate_context() {
         fi
 
         line_wrap=0
-        ctx_len=$(( ctx_len + $(str_length "$(eval ${val})") ))
-        prompt_len=$(( $ctx_len + $(real_static_len) ))
+        ctx_len=$(( ctx_len + $(str_length "$(eval ${val})") - $(str_length "$SEP_CHAR") - 5 ))  # - 3 compensates for context separator spaces
+        prompt_len=$(( $ctx_len + $_real_plen ))
         if [[ $prompt_len -ge $SCR_COLS ]] ; then
             # Screen wrap!
             echo -en "\n.. "
@@ -252,7 +252,6 @@ _SEP="$(ascii_color ${SEP_COLOR} ${SEP_CHAR})"
 
 function bt_export_contexts() {
     export SCR_COLS="$(tput cols)"
-    echo "Updated columns to $SCR_COLS"
 
     # Settings for the git branch context.
     GIT_COLOR="\e[36m"

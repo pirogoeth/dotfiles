@@ -8,3 +8,6 @@ home/.vim/bundle/*
 home/.tmux/plugins/*
 # Except for TPM itself.
 !home/.tmux/plugins/tpm/
+
+# Ignore nvim rplugin files
+home/.vim/.init.vim-rplugin*

@@ -25,7 +25,7 @@ call dein#add('Shougo/neosnippet.vim')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('Shougo/vimshell')
 call dein#add('Shougo/unite.vim')
-call dein#add('kien/ctrlp.vim')
+call dein#add('ctrlpvim/ctrlp.vim')
 call dein#add('flazz/vim-colorschemes')
 call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 call dein#add('altercation/vim-colors-solarized')
@@ -40,18 +40,18 @@ call dein#add('terryma/vim-multiple-cursors')
 call dein#add('lepture/vim-jinja')
 call dein#add('markcornick/vim-vagrant')
 call dein#add('pearofducks/ansible-vim')
-call dein#add('rking/ag.vim')
 call dein#add('Shougo/echodoc.vim')
-call dein#add('Rip-Rip/clang_complete')
 call dein#add('xolox/vim-misc')
 call dein#add('xolox/vim-lua-ftplugin')
 call dein#add('mtth/scratch.vim')
+call dein#add('mileszs/ack.vim')
 
 " Neovim-specific plugins
 call dein#add('airblade/vim-gitgutter', {"if": has("nvim")})
 call dein#add('Shougo/deoplete.nvim', {"if": has("nvim") && has("python3")})
 call dein#add('zchee/deoplete-jedi', {"if": has("nvim") && has("python3")})
 call dein#add('zchee/deoplete-go', {"if": has("nvim"), "build": "make"})
+call dein#add('pirogoeth/deoplete-clang', {"if": has("nvim")})
 call dein#add('carlitux/deoplete-ternjs', {"if": has("nvim")})
 call dein#add('hkupty/nvimux', {"if": has("nvim")})
 
@@ -67,11 +67,6 @@ call dein#end()
 
 if dein#check_install()
   call dein#install()
-endif
-
-" Enable deoplete!
-if has("nvim") && has("python3")
-  call deoplete#enable()
 endif
 
 " Required:
@@ -216,23 +211,34 @@ let g:multi_cursor_quit_key = '<Esc>'
 " Open a unite file buffer instead of netrw
 nnoremap <silent> - :Unite file buffer<CR>
 
+" Enable deoplete!
+if has("nvim") && has("python3")
+  " deoplete.nvim + completion settings -- do config before enabling
+  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#omni#functions_lua = 'xolox#lua#completefunc'
+  let g:deoplete#sources#go#gocode_binary = expand("~/.go/bin/gocode")
+  let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.5/lib/libclang.so.1'
+  let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/3.5/include'
+  let g:deoplete#sources#clang#std = {'c': 'c11', 'cpp': 'c++1z', 'objc': 'c11', 'objcpp': 'c++1z'}
+
+  call deoplete#enable()
+endif
+
+" Set up ack.vim for ag, if available
+if executable('ag')
+  let g:ackprg = 'ag --nogroup --nocolor --column'
+endif
+" nmap <silent> <S-A> 
+
 " Nvimux settings
 let g:nvimux_prefix = '<C-b>'
 
-" deoplete.nvim + completion settings
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#omni#functions_lua = 'xolox#lua#completefunc'
-let g:deoplete#sources#go#gocode_binary = expand("~/.go/bin/gocode")
-
-let g:clang_complete_auto = 0
-let g:clang_auto_select = 0
-let g:clang_omnicppcomplete_compliance = 0
-let g:clang_make_default_keymappings = 0
-
+" Lua filetype settings
 let g:lua_check_syntax = 0
 let g:lua_complete_omni = 1
 let g:lua_complete_dynamic = 0
 let g:lua_define_completion_mappings = 0
 
+" Scratchpad settings
 let g:scratch_autohide = 1
 let g:scratch_persistent_file = expand('~/.vim/scratch')
