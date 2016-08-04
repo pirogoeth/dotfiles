@@ -52,7 +52,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # Alias for dmenu + lpass
-alias dmenu_lpass='lpass ls | awk -f ~/.bash/lpass-ls.awk | dmenu -b -l 8 -p "lpass> " | xargs -I {} lpass show "{}" | grep "Password" | awk "{ print \$2 }" | xclip -i -loops 1 -verbose -selection clipboard'
+alias dmenu_lpass='lpass ls | awk -f ~/.bash/lpass-ls.awk | dmenu -i -b -l 8 -p "lpass> " | xargs -I {} lpass show "{}" | grep "Password" | awk "{ print \$2 }" | xclip -i -loops 1 -verbose -selection clipboard'
 
  # Add an "alert" alias for long running commands.  Use like so:
  #   sleep 10; alert
