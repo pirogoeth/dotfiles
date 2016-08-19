@@ -58,9 +58,15 @@ BASH_STX='\]'
 ASC_SOH="\001"
 ASC_STX="\002"
 
+# Line beginning for wrapped contexts
+WRAP_BEGIN=".. "
+
+# Size at which the contexts are shrunk to their "rune" form
+SHRINK_THRESHOLD="80"
+
 # Set short form under 80 columns.
 SCR_COLS="$(tput cols)"
-if [[ "$SCR_COLS" -lt "80" ]] ; then
+if [[ "$SCR_COLS" -lt "$SHRINK_THRESHOLD" ]] ; then
     BT_SHORT="YES"
 else
     BT_SHORT="NO"
@@ -131,7 +137,7 @@ function get_curpos() {
 function str_length() {
     echo $* | \
         tr -d '[[:cntrl:]]' | \
-        awk '{ gsub(/\\[[:digit:]]+m/, "", $0); print $0 }' | \
+        awk '{ gsub(/\\..?m/, ""); print }' | \
         tr -d '\n\\' | \
         wc -c
 }
@@ -140,9 +146,9 @@ function real_prompt_len() {
     echo $(( \
         $(str_length "$_static") + \
         $(str_length "$USER") + \
-        $(str_length "`hostname`") + \
-        $(str_length "${PWD//$HOME/\~}") + \
-        7 )) # Number of spaces following _static and others
+        $(str_length "$(hostname -s)") + \
+        $(str_length "${PWD//$HOME/\~}") \
+    ))
 }
 
 function generate_context() {
@@ -157,11 +163,11 @@ function generate_context() {
         fi
 
         line_wrap=0
-        ctx_len=$(( ctx_len + $(str_length "$(eval ${val})") - $(str_length "$SEP_CHAR") - 5 ))  # - 3 compensates for context separator spaces
+        ctx_len=$(( ctx_len + $(str_length "$(eval ${val})") - $(str_length "$SEP_CHAR") - 2 ))
         prompt_len=$(( $ctx_len + $_real_plen ))
         if [[ $prompt_len -ge $SCR_COLS ]] ; then
             # Screen wrap!
-            echo -en "\n.. "
+            echo -en "\n${WRAP_BEGIN}"
             line_wrap=1
         fi
 
@@ -252,6 +258,13 @@ _SEP="$(ascii_color ${SEP_COLOR} ${SEP_CHAR})"
 
 function bt_export_contexts() {
     export SCR_COLS="$(tput cols)"
+    if [[ "$AUTO_SHRINK" == "YES" ]] ; then
+        if [[ "$SCR_COLS" -lt "$SHRINK_THRESHOLD" ]] ; then
+            BT_SHORT="YES"
+        else
+            BT_SHORT="NO"
+        fi
+    fi
 
     # Settings for the git branch context.
     GIT_COLOR="\e[36m"

@@ -22,10 +22,12 @@ TERM="xterm-256color";   export TERM
 # Default settings for .bash/bash-theme
 # NO_COLOR="YES";          export NO_COLOR
 COLOR_BRACKETING="YES";  export COLOR_BRACKETING
+AUTO_SHRINK="YES";       export AUTO_SHRINK
 
 # Override for color settings.
-[[ -f ~/.bash-theme.override ]] &&
-    source ~/.bash-theme.override
+[[ -f ~/.bash-theme.override ]] && \
+    source ~/.bash-theme.override && \
+    bt_export_contexts
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
