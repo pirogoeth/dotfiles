@@ -9,4 +9,6 @@
 [gpg]
 	program = gpg2
 [commit]
-	gpgSign = true
+	gpgSign = false
+[alias]
+	undo = "!f() { \\\n    git reset --hard $(git rev-parse --abbrev-ref HEAD)@{${1-1}}; \\\n}; f"
