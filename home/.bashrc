@@ -131,3 +131,24 @@ else
     source "$HOME/.asdf/asdf.sh"
     source "$HOME/.asdf/completions/asdf.bash"
 fi
+
+# alias for ntfy, if it's uninstalled
+if [[ -z `which ntfy` ]] ; then
+    function ntfy () {
+        echo " [!] ntfy is not installed -- installing now!"
+        sudo pip -q install -U ntfy
+        if [[ "$?" != "0" ]] ; then
+            echo " [-] Pip threw an error during install.."
+        else
+            unset -f ntfy
+            if [[ ! -z `which ntfy` ]] ; then
+                echo " [+] Done!"
+            else
+                echo " [!] Installation succeeded, but can't find path to executable 'ntfy'.."
+            fi
+        fi
+    }
+    export -f ntfy
+else
+    eval "$(ntfy shell-integration)"
+fi
