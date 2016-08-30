@@ -149,6 +149,4 @@ if [[ -z `which ntfy` ]] ; then
         fi
     }
     export -f ntfy
-else
-    eval "$(ntfy shell-integration)"
 fi
