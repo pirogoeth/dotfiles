@@ -89,4 +89,4 @@ ENV=$HOME/.shrc; export ENV
 [[ -f $HOME/.localrc ]] && [[ -z "${LOCALRC_LOADED}" ]] && \
     source $HOME/.localrc
 
-if [ -x /usr/games/fortune ] ; then echo && /usr/games/fortune -a && echo ; fi
+if [ -x /usr/games/fortune ] ; then /usr/games/fortune -a && echo ; fi
