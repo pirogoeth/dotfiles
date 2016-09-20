@@ -36,6 +36,9 @@ set $transparent #00000000
 # RIP titlebars ;'(
 for_window [class="^.*"] border pixel 0
 
+# custom window settings
+for_window [title="Authy"] floating enable
+
 # graphics glitch?
 new_window none
 
