@@ -23,6 +23,9 @@ RESET_COLOR="\e[0m"
 DIR_COLOR="\e[32m"
 CTX_COLOR="\e[32m"
 
+# Battery context settings
+BATTERY_IDENT=${BATTERY_IDENT:-"BAT0"}
+
 # Colors to represent regular user vs. root user.
 USER_COLOR="\e[32m"
 ROOT_COLOR="\e[36m"
@@ -216,9 +219,9 @@ function __battery_ps1() {
     _fmt=${1}
 
     [[ -z "${_fmt}" ]] && _fmt="%s"
-    [[ ! -f /sys/class/power_supply/BAT0/capacity ]] && return
+    [[ ! -f /sys/class/power_supply/${BATTERY_IDENT}/capacity ]] && return
 
-    _batt_level="$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)"
+    _batt_level="$(cat /sys/class/power_supply/${BATTERY_IDENT}/capacity 2>/dev/null)"
 
     printf "${_fmt}" "${_batt_level}"
 }

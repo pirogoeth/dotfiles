@@ -86,7 +86,7 @@ ENV=$HOME/.shrc; export ENV
 [[ -z "${BASHRC_LOADED}" ]] && \
     source $HOME/.bashrc
 
-[[ -f $HOME/.localrc ]] &&
+[[ -f $HOME/.localrc ]] && [[ -z "${LOCALRC_LOADED}" ]] && \
     source $HOME/.localrc
 
-if [ -x /usr/games/fortune ] ; then /usr/games/fortune freebsd-tips ; fi
+if [ -x /usr/games/fortune ] ; then echo && /usr/games/fortune -a && echo ; fi
