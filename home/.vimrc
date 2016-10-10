@@ -217,8 +217,10 @@ if has("nvim") && has("python3")
   let g:deoplete#enable_at_startup = 1
   let g:deoplete#omni#functions_lua = 'xolox#lua#completefunc'
   let g:deoplete#sources#go#gocode_binary = expand("~/.go/bin/gocode")
-  let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.5/lib/libclang.so.1'
-  let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/3.5/include'
+  let g:deoplete#sources#go#cgo = 1
+  let g:deoplete#sources#go#cgo#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
+  let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
+  let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/3.8/include'
   let g:deoplete#sources#clang#std = {'c': 'c11', 'cpp': 'c++1z', 'objc': 'c11', 'objcpp': 'c++1z'}
 
   call deoplete#enable()

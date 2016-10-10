@@ -52,6 +52,7 @@ if [[ -z `which ntfy` ]] ; then
         sudo pip -q install -U ntfy
         if [[ "$?" != "0" ]] ; then
             echo " [-] Pip threw an error during install.."
+            return 1
         else
             unset -f ntfy
             if [[ ! -z `which ntfy` ]] ; then
@@ -77,12 +78,13 @@ if [[ -z `which gimme` ]] ; then
             sudo curl -sL -o /usr/local/bin/gimme https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
             if [[ $? != 0 ]] ; then
                 echo " [-] Could not download gimme to /usr/local/bin"
-                exit 1
+                return 1
+            else
+                chmod +x /usr/local/bin/gimme
+                unset -f gimme
             fi
-            chmod +x /usr/local/bin/gimme
         fi
 
-        unset -f gimme
         if [[ ! -z `which gimme` ]] ; then
             echo " [+] Done!"
         else
@@ -91,3 +93,29 @@ if [[ -z `which gimme` ]] ; then
     }
     export -f gimme
 fi
+
+# alias for the dokku client, if it is not present
+if [[ -z "`alias | grep dokku`" ]] && [[ ! -d "$HOME/.dokku" ]] ; then
+    function dokku() {
+        echo " [!] dokku_client.sh is not installed -- installing now!"
+        if [[ ! -d "$HOME/.dokku" ]] ; then
+            git clone -q https://github.com/dokku/dokku.git $HOME/.dokku
+            if [[ $? != 0 ]] ; then
+                echo " [-] Git threw an error while cloning dokku.."
+            else
+                chmod +x $HOME/.dokku/contrib/dokku_client.sh
+                unset -f dokku
+                alias dokku="$HOME/.dokku/contrib/dokku_client.sh"
+                $HOME/.dokku/contrib/dokku_client.sh $*
+            fi
+        else
+            unset -f dokku
+            alias dokku="$HOME/.dokku/contrib/dokku_client.sh"
+            $HOME/.dokku/contrib/dokku_client.sh $*
+        fi
+    }
+    export -f dokku
+else
+    alias dokku="$HOME/.dokku/contrib/dokku_client.sh"
+fi
+
