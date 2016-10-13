@@ -222,8 +222,15 @@ function __battery_ps1() {
     [[ ! -f /sys/class/power_supply/${BATTERY_IDENT}/capacity ]] && return
 
     _batt_level="$(cat /sys/class/power_supply/${BATTERY_IDENT}/capacity 2>/dev/null)"
+    if [[ "$(cat /sys/class/power_supply/${BATTERY_IDENT}/status)" == "Charging" ]] ; then
+        _batt_charging="(⚡) "
+    else
+        _batt_charging=""
+    fi
 
-    printf "${_fmt}" "${_batt_level}"
+    _batt_status="${_batt_charging}${_batt_level}"
+
+    printf "${_fmt}" "${_batt_status}"
 }
 
 function __ssh_ps1() {
