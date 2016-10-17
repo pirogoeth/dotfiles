@@ -82,7 +82,6 @@ font pango:monospace 8
 
 # Run the XRandR screenlayout for multi-display.
 exec --no-startup-id "sh -c '/home/sean/.screenlayout/default.sh'"
-exec --no-startup-id "compton --config ~/.config/i3/compton.conf -bfCGzc --vsync opengl"
 
 # Mapping workspaces across multiple monitors
 #workspace 1 output HDMI-1
