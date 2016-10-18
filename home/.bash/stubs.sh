@@ -46,7 +46,7 @@ else
 fi
 
 # alias for ntfy, if it's uninstalled
-if [[ -z `which ntfy` ]] ; then
+if [[ -z `which ntfy 2>/dev/null` ]] ; then
     function ntfy () {
         echo " [!] ntfy is not installed -- installing now!"
         sudo pip -q install -U ntfy
@@ -55,7 +55,7 @@ if [[ -z `which ntfy` ]] ; then
             return 1
         else
             unset -f ntfy
-            if [[ ! -z `which ntfy` ]] ; then
+            if [[ ! -z `which ntfy 2>/dev/null` ]] ; then
                 echo " [+] Done!"
             else
                 echo " [!] Installation succeeded, but can't find path to executable 'ntfy'.."
@@ -66,7 +66,7 @@ if [[ -z `which ntfy` ]] ; then
 fi
 
 # alias for gimme, if it is not present
-if [[ -z `which gimme` ]] ; then
+if [[ -z "$(which gimme 2>/dev/null)" ]] ; then
     function gimme() {
         echo " [!] gimme is not installed -- installing now!"
         if [[ -d "$HOME/.bin" ]] && [[ ! -z "$(echo $PATH | grep $HOME/.bin)" ]] ; then
@@ -80,13 +80,13 @@ if [[ -z `which gimme` ]] ; then
                 echo " [-] Could not download gimme to /usr/local/bin"
                 return 1
             else
-                chmod +x /usr/local/bin/gimme
-                unset -f gimme
+                sudo chmod +x /usr/local/bin/gimme
             fi
         fi
 
-        if [[ ! -z `which gimme` ]] ; then
+        if [[ ! -z "$(which gimme 2>/dev/null)" ]] ; then
             echo " [+] Done!"
+            unset -f gimme
         else
             echo " [!] Installation seemed successful, but can't find path to 'gimme'.."
         fi

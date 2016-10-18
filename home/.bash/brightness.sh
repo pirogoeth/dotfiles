@@ -5,10 +5,20 @@
 # adjust monitor brightness via CLI
 #
 
-BACKLIGHT_CLASS=${BACKLIGHT_CLASS:-"intel_backlight"}
 DEFAULT_STEP=5
 
-b_path="/sys/class/backlight/${BACKLIGHT_CLASS}"
+refscript="${0##*/}"
+case "${refscript}" in
+    "kbdlight.sh")
+        BACKLIGHT_CLASS=${KBD_BACKLIGHT_CLASS:-"smc::kbd_backlight"}
+        b_path="/sys/class/leds/${BACKLIGHT_CLASS}"
+        ;;
+    *)
+        BACKLIGHT_CLASS=${BACKLIGHT_CLASS:-"intel_backlight"}
+        b_path="/sys/class/backlight/${BACKLIGHT_CLASS}"
+        ;;
+esac
+
 if [[ ! -d ${b_path} ]] ; then
     echo " [-] Backlight class does not exist at ${b_path}"
     exit 1

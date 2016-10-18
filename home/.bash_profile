@@ -57,7 +57,7 @@ export GIT_PS1_SHOWDIRTYSTATE=true
     source $HOME/.bash/watson.completion
 
 # bash theme
-[[ -f $HOME/.bash/bash-theme.sh ]] && \
+[[ -f $HOME/.bash/bash-theme.sh ]] && [[ -z "${THEME_LOADED}" ]] && \
     source $HOME/.bash/bash-theme.sh
 
 # bin loader
@@ -79,7 +79,7 @@ PAGER=less;  	export PAGER
 ENV=$HOME/.shrc; export ENV
 
 # load alias for using thefuck (thefuck on pypi)
-[[ $(which thefuck || false) ]] && \
+[[ $(which thefuck 2>/dev/null || false) ]] && \
     eval "$(thefuck --alias)"
 
 # Check if the bashrc was loaded, and source it if not.
