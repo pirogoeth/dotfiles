@@ -53,8 +53,8 @@ time_wakeup_tuesday   = ('06:00', '07:00')
 time_wakeup_wednesday = ('06:00', '07:00')
 time_wakeup_thursday  = ('06:00', '07:00')
 time_wakeup_friday    = ('06:00', '07:00')
-time_wakeup_saturday  = ('13:00', '14:00')
-time_wakeup_sunday    = ('13:00', '14:00')
+time_wakeup_saturday  = ('09:00', '10:00')
+time_wakeup_sunday    = ('09:00', '10:00')
 
 
 # The (zero-based) indices of the monitors (CRTC:s) to apply
@@ -71,7 +71,7 @@ gamma_blue  = [1]
 
 # The colour temperature during the day, night, during
 # sleep and the default, respectively.
-temperature_day     = 5500
+temperature_day     = 6000
 temperature_night   = 3500
 temperature_sleep   = 2500
 temperature_default = 6500
