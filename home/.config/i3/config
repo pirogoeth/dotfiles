@@ -83,17 +83,6 @@ font pango:monospace 8
 # Run the XRandR screenlayout for multi-display.
 exec --no-startup-id "sh -c '/home/sean/.screenlayout/default.sh'"
 
-# Mapping workspaces across multiple monitors
-#workspace 1 output HDMI-1
-#workspace 2 output HDMI-1
-#
-#workspace 3 output DisplayPort-1
-#workspace 4 output DisplayPort-1
-workspace 1 output eDP1
-workspace 2 output eDP1
-workspace 3 output eDP1
-workspace 4 output eDP1
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -133,8 +122,8 @@ bindsym $mod+Shift+m exec --no-startup-id "setxkbmap -option grp:switch,grp:sclk
 bindsym $meta+Shift+S exec --no-startup-id "echo -n '¯\_(ツ)_/¯' | xclip -i -selection clipboard"
 
 # lock screen
-set $lock_cmd "i3lock -d -t -I 30 -e -i /home/sean/Pictures/isometric-grid.png"
-exec --no-startup-id "xautolock -time 5 -locker 'i3lock -d -t -I 30 -e -i /home/sean/Pictures/isometric-grid.png' &"
+set $lock_cmd "i3lock-wrapper -I 20 -e"
+exec --no-startup-id "xautolock -time 5 -locker 'i3lock-wrapper -I 20 -e' &"
 bindsym $meta+l exec --no-startup-id $lock_cmd
 
 # other useful binds
@@ -229,6 +218,15 @@ bindsym $mod+Shift+7 move container to workspace $WS7
 bindsym $mod+Shift+8 move container to workspace $WS8
 bindsym $mod+Shift+9 move container to workspace $WS9
 bindsym $mod+Shift+0 move container to workspace $WS10
+
+# Mapping workspaces across multiple monitors
+workspace $WS1 output eDP1
+workspace $WS2 output eDP1
+workspace $WS3 output eDP1
+workspace $WS4 output eDP1
+
+# default workspace
+workspace $WS1
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

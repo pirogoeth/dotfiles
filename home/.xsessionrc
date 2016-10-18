@@ -14,7 +14,12 @@ if [ ! -z "${XDG_SESSION_DESKTOP}" ] && [ "${XDG_SESSION_DESKTOP}" == "i3" ] ; t
 
     # start blueshift
     if [ ! -z "$(which tmux)" ] && [ ! -z "$(which blueshift)" ] ; then
-        /usr/bin/env tmux new-session -d -s blueshift '/usr/bin/env blueshift -c /home/sean/.config/blueshift/bedtime'
+        /usr/bin/env tmux new-session -d -s blueshift "/usr/bin/env blueshift -c $HOME/.config/blueshift/bedtime"
+    fi
+
+    # start compton
+    if [ ! -z "$(which compton)" ] ; then
+        /usr/bin/env compton -b --config $HOME/.config/compton.conf
     fi
 fi
 
@@ -26,6 +31,7 @@ if [ -n "$BASH_VERSION" ]; then
          . "$HOME/.bashrc"
      fi
 fi
+
 
 # source the localrc regardless of shell
 if [ -f "$HOME/.localrc" ] ; then
