@@ -8,17 +8,37 @@
 
 export XSESSION=1
 
-if [ ! -z "${XDG_SESSION_DESKTOP}" ] && [ "${XDG_SESSION_DESKTOP}" == "i3" ] ; then
+echo " ===== $(date) =====" >> $HOME/xstart.log
+echo ".xsessionrc is running.." >> $HOME/xstart.log
+env >> $HOME/xstart.log
+
+set -x
+
+# source the localrc regardless of shell
+if [ -f "$HOME/.localrc" ] ; then
+    if [ -z "${LOCALRC_LOADED}" ] ; then
+        . "$HOME/.localrc"
+        if [ ! -z "${GDMSESSION}" ] ; then
+            unset LOCALRC_LOADED
+        fi
+    fi
+fi
+
+echo "booting x desktop environment (nitrogen, blueshift, and compton)" >> $HOME/xstart.log
+
+if [ "${XDG_CURRENT_DESKTOP}" = "i3" ] ; then
     # restore i3 desktop background
     /usr/bin/env nitrogen --restore
 
     # start blueshift
     if [ ! -z "$(which tmux)" ] && [ ! -z "$(which blueshift)" ] ; then
+        echo "Launching blueshift for $USER on display $DISPLAY" >> $HOME/xstart.log
         /usr/bin/env tmux new-session -d -s blueshift "/usr/bin/env blueshift -c $HOME/.config/blueshift/bedtime"
     fi
 
     # start compton
     if [ ! -z "$(which compton)" ] ; then
+        echo "Launching compton for $USER on display $DISPLAY" >> $HOME/xstart.log
         /usr/bin/env compton -b --config $HOME/.config/compton.conf
     fi
 fi
@@ -30,15 +50,4 @@ if [ -n "$BASH_VERSION" ]; then
      if [ -f "$HOME/.bashrc" ] && [ ! -z "${COLORTERM}" ] ; then
          . "$HOME/.bashrc"
      fi
-fi
-
-
-# source the localrc regardless of shell
-if [ -f "$HOME/.localrc" ] ; then
-    if [ -z "${LOCALRC_LOADED}" ] ; then
-        . "$HOME/.localrc"
-        if [ ! -z "${GDMSESSION}" ] ; then
-            unset LOCALRC_LOADED
-        fi
-    fi
 fi
