@@ -37,7 +37,9 @@ function __bshu_gpgagent_stop() {
     AGENT_INFO="${HOME}/.gpg-agent-info"
 
     # Only kill the agent if this is the only session.
-    num_sessions=$(w | grep $USER | grep -E "pts|tty" | wc -l)
+    # On some Linuxes, `w` does not show all sessions...
+    # It's better to use `ps axno user,tty`
+    num_sessions=$(ps axno user,tty | awk '$0 ~ /USER.*/ { next }; $1 == '$UID' && $2 != "?" { print $0 }' | uniq | wc -l)
     if [[ $num_sessions -gt 1 ]] ; then
         return 0;
     fi
