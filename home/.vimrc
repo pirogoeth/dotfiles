@@ -220,7 +220,7 @@ if has("nvim") && has("python3")
   let g:deoplete#sources#go#cgo = 1
   let g:deoplete#sources#go#cgo#libclang_path = '/usr/lib/libclang.so'
   let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
-  let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/3.8/include'
+  let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/3.9.0/include'
   let g:deoplete#sources#clang#std = {'c': 'c11', 'cpp': 'c++1z', 'objc': 'c11', 'objcpp': 'c++1z'}
 
   call deoplete#enable()

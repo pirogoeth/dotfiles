@@ -105,15 +105,15 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+Shift+minus move scratchpad
 
 # music controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 1 +5%"
-bindsym XF86AudioLowerVolume exec --no-startup-id "pactl set-sink-volume 1 -5%"
-bindsym XF86AudioMute exec --no-startup-id "pactl set-sink-mute 1 toggle"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 0 +5%"
+bindsym XF86AudioLowerVolume exec --no-startup-id "pactl set-sink-volume 0 -5%"
+bindsym XF86AudioMute exec --no-startup-id "pactl set-sink-mute 0 toggle"
 bindsym XF86MonBrightnessUp exec --no-startup-id "/home/sean/.bash/brightness.sh +5"
 bindsym XF86MonBrightnessDown exec --no-startup-id "/home/sean/.bash/brightness.sh -5"
-bindsym XF86AudioPlay exec --no-startup-id "/usr/bin/playerctl play-pause"
-bindsym XF86AudioStop exec --no-startup-id "/usr/bin/playerctl stop"
-bindsym XF86AudioPrev exec --no-startup-id "/usr/bin/playerctl previous"
-bindsym XF86AudioNext exec --no-startup-id "/usr/bin/playerctl next"
+bindsym XF86AudioPlay exec --no-startup-id "/usr/bin/env playerctl play-pause"
+bindsym XF86AudioStop exec --no-startup-id "/usr/bin/env playerctl stop"
+bindsym XF86AudioPrev exec --no-startup-id "/usr/bin/env playerctl previous"
+bindsym XF86AudioNext exec --no-startup-id "/usr/bin/env playerctl next"
 
 # reset the X11 keymap to allow for toggling between languages
 bindsym $mod+Shift+m exec --no-startup-id "setxkbmap -option grp:switch,grp:sclk_toggle,grp_led:scroll,compose:menu -layout 'us,ru' -variant ',phonetic_winkeys'"
@@ -224,9 +224,12 @@ workspace $WS1 output eDP1
 workspace $WS2 output eDP1
 workspace $WS3 output eDP1
 workspace $WS4 output eDP1
-
-# default workspace
-workspace $WS1
+workspace $WS5 output eDP1
+workspace $WS6 output eDP1
+workspace $WS7 output eDP1
+workspace $WS8 output eDP1
+workspace $WS9 output eDP1
+workspace $WS10 output eDP1
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

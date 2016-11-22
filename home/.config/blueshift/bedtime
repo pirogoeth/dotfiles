@@ -72,7 +72,7 @@ gamma_blue  = [1]
 # The colour temperature during the day, night, during
 # sleep and the default, respectively.
 temperature_day     = 6000
-temperature_night   = 3500
+temperature_night   = 3000
 temperature_sleep   = 2500
 temperature_default = 6500
 
