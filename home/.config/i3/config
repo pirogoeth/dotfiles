@@ -322,7 +322,7 @@ bar {
 
     mode dock
     position bottom
-    font pango:Iosevka Light
+    font pango:Iosevka Light 12
     tray_padding 8px
 
     strip_workspace_numbers yes

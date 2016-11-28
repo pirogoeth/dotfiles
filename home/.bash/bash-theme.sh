@@ -33,7 +33,7 @@ FALLBACK_COLOR="\e[31m"
 
 # Theme elements.
 SEP_CHAR="|" # Separator
-BLC_CHAR="⬡" # Beginning of line
+BLC_CHAR="☭ " # Beginning of line
 PMT_CHAR="λ" # Prompt line
 
 # Context color

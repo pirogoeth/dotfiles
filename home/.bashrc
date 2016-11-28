@@ -93,3 +93,6 @@ export __PATH="$PATH"
 if [[ -z "${STUBS_LOADED}" ]] ; then
     source ~/.bash/stubs.sh
 fi
+
+# added by travis gem
+[ -f /home/sean/.travis/travis.sh ] && source /home/sean/.travis/travis.sh
