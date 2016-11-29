@@ -45,6 +45,7 @@ call dein#add('xolox/vim-misc')
 call dein#add('xolox/vim-lua-ftplugin')
 call dein#add('mtth/scratch.vim')
 call dein#add('mileszs/ack.vim')
+call dein#add('hashivim/vim-terraform')
 
 " Neovim-specific plugins
 call dein#add('airblade/vim-gitgutter', {"if": has("nvim")})
@@ -89,9 +90,7 @@ endif
 let g:airline_symbols.space = "\ua0"
 
 " General settings
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufEnter * set mouse=
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
 syntax on
 
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
@@ -106,12 +105,27 @@ set ignorecase
 set smartcase
 set hlsearch
 set hidden
+set cursorline
+
+" Syntax / file-specfic settings
+au BufNewFile,BufReadPost *.md setlocal filetype=markdown
+au FileType java setlocal omnifunc=javacomplete#Complete
+au FileType lua setlocal ts=2 sts=2 sw=2 et ai
+au FileType ruby setlocal ts=2 sts=2 sw=2 et ai
+au FileType yaml setlocal ts=2 sts=2 sw=2 et ai
+au FileType go setlocal noet ts=4 sw=4
 
 " Code folding settings
 set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=1
+
+" add function to check for color schemes
+function! s:has_colorscheme(name)
+    let pat = 'colors/'.a:name.'.vim'
+    return !empty(globpath(&rtp, pat))
+endfunction
 
 " Magical key bindings!
 map <Leader>cdc :cd %:p:h<CR>
@@ -226,16 +240,26 @@ if has("nvim") && has("python3")
   call deoplete#enable()
 endif
 
+" enable wildmenu if it's available
+if has("wildmenu")
+  set wildmenu
+endif
+
+" check for molokai color theme and set it
+if s:has_colorscheme("molokai")
+  colo molokai
+endif
+
 " Set up ack.vim for ag, if available
-if executable('ag')
-  let g:ackprg = 'ag --nogroup --nocolor --column'
+if executable("ag")
+  let g:ackprg = "ag --nogroup --nocolor --column"
 endif
 " nmap <silent> <S-A> 
 
 " Nvimux settings
-let g:nvimux_prefix = '<C-b>'
+let g:nvimux_prefix = "<C-b>"
 
-" Lua filetype settings
+" Lua syntax / completion settings
 let g:lua_check_syntax = 0
 let g:lua_complete_omni = 1
 let g:lua_complete_dynamic = 0

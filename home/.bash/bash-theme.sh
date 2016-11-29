@@ -33,7 +33,7 @@ FALLBACK_COLOR="\e[31m"
 
 # Theme elements.
 SEP_CHAR="|" # Separator
-BLC_CHAR="☭ " # Beginning of line
+BLC_CHAR="☭" # Beginning of line
 PMT_CHAR="λ" # Prompt line
 
 # Context color
@@ -68,7 +68,8 @@ WRAP_BEGIN=".. "
 SHRINK_THRESHOLD="80"
 
 # Set short form under 80 columns.
-SCR_COLS="$(tput cols)"
+COLS_CMD="tput cols"
+SCR_COLS="$(${COLS_CMD})"
 if [[ "$SCR_COLS" -lt "$SHRINK_THRESHOLD" ]] ; then
     BT_SHORT="YES"
 else
@@ -155,6 +156,9 @@ function real_prompt_len() {
 }
 
 function generate_context() {
+    # Reset the real terminal width
+    eval "SCR_COLS=${COLS_CMD}"
+
     ctx_len=0
     _real_plen=$(real_prompt_len)
     for (( i=0 ; $i<${#CONTEXTS[@]}; i++ ))
@@ -168,7 +172,7 @@ function generate_context() {
         line_wrap=0
         ctx_len=$(( ctx_len + $(str_length "$(eval ${val})") - $(str_length "$SEP_CHAR") - 2 ))
         prompt_len=$(( $ctx_len + $_real_plen ))
-        if [[ $prompt_len -ge $SCR_COLS ]] ; then
+        if [[ $prompt_len -ge ${SCR_COLS} ]] ; then
             # Screen wrap!
             echo -en "\n${WRAP_BEGIN}"
             line_wrap=1
