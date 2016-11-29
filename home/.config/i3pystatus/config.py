@@ -62,7 +62,7 @@ status.register("battery",
 #
 # Note: the network module requires PyPI package netifaces
 status.register("network",
-    interface="ens9",
+    interface="enp4s0f1",
     format_up="ether: {v4cidr}",)
 
 # Note: requires both netifaces and basiciw (for essid and quality)
@@ -83,15 +83,22 @@ status.register("disk",
 status.register("pulseaudio",
     format="{volume}% ♪",)
 
-# Shows mpd status
-# Format:
-# Cloud connected▶Reroute to Remain
-status.register("mpd",
-    format="{title}{status}{album}",
+status.register("github",
+    format="[ ⥄ {status} {unread_count} ]",
+    notify_status=True,
+    notify_unread=True,
+    hints={'markup': 'pango'},
+    update_error='<span color="#af0000">!</span>',
+    refresh_icon='<span color="#ff5f00">⟳</span>',
     status={
-        "pause": "▷",
-        "play": "▶",
-        "stop": "◾",
+        'good': '✓',
+        'minor': '!',
+        'major': '!!',
+    },
+    colors={
+        'good': '#008700',
+        'minor': '#d7ff00',
+        'major': '#af0000',
     },)
 
 status.register("playerctl",
