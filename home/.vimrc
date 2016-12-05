@@ -46,6 +46,7 @@ call dein#add('xolox/vim-lua-ftplugin')
 call dein#add('mtth/scratch.vim')
 call dein#add('mileszs/ack.vim')
 call dein#add('hashivim/vim-terraform')
+call dein#add('tpope/vim-commentary')
 
 " Neovim-specific plugins
 call dein#add('airblade/vim-gitgutter', {"if": has("nvim")})
@@ -110,10 +111,11 @@ set cursorline
 " Syntax / file-specfic settings
 au BufNewFile,BufReadPost *.md setlocal filetype=markdown
 au FileType java setlocal omnifunc=javacomplete#Complete
-au FileType lua setlocal ts=2 sts=2 sw=2 et ai
-au FileType ruby setlocal ts=2 sts=2 sw=2 et ai
-au FileType yaml setlocal ts=2 sts=2 sw=2 et ai
-au FileType go setlocal noet ts=4 sw=4
+au FileType lua setlocal ts=2 sts=2 sw=2 et ai commentstring=--\ %s
+au FileType ruby setlocal ts=2 sts=2 sw=2 et ai commentstring=#\ %s
+au FileType yaml setlocal ts=2 sts=2 sw=2 et ai commentstring=#\ %s
+au FileType go setlocal noet ts=4 sw=4 commentstring=//\ %s
+au FileType python setlocal ts=4 sts=4 sw=4 et ai commentstring=#\ %s
 
 " Code folding settings
 set foldmethod=indent
