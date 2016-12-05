@@ -94,6 +94,7 @@ let g:airline_symbols.space = "\ua0"
 autocmd BufEnter * set mouse=
 syntax on
 
+syntax on
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 set list
 set listchars=tab:»-,trail:·,extends:»,precedes:«
