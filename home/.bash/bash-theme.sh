@@ -47,6 +47,7 @@ BLC_COLOR="\e[32m"
 UNAME_COLOR="\e[37m"
 HNAME_COLOR="\e[35m"
 UHSEP_COLOR="\e[35m"
+HOSTNAME_VALUE="$(hostname -s)"
 
 # Special characters.
 USER_CHAR="\\u"
@@ -150,7 +151,7 @@ function real_prompt_len() {
     echo $(( \
         $(str_length "$_static") + \
         $(str_length "$USER") + \
-        $(str_length "$(hostname -s)") + \
+        $(str_length "$HOSTNAME_VALUE") + \
         $(str_length "${PWD//$HOME/\~}") \
     ))
 }
@@ -161,6 +162,7 @@ function generate_context() {
 
     ctx_len=0
     _real_plen=$(real_prompt_len)
+
     for (( i=0 ; $i<${#CONTEXTS[@]}; i++ ))
     do
         val="${!CONTEXTS[$i]}"
