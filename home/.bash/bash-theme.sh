@@ -82,6 +82,34 @@ if [[ -z "${COLOR_BRACKETING}" ]] ; then
     COLOR_BRACKETING="NO"
 fi
 
+# Quick-config functions
+function force-short-contexts() {
+    export BT_SHORT=YES
+    export AUTO_SHRINK=NO
+
+    bt_export_contexts
+}
+
+function force-long-contexts() {
+    export BT_SHORT=NO
+    export AUTO_SHRINK=NO
+
+    bt_export_contexts
+}
+
+function allow-dynamic-contexts() {
+    export AUTO_SHRINK=YES
+
+    bt_export_contexts
+}
+
+function set-shrink-threshold() {
+    [[ -z $1 ]] && return 1
+
+    export SHRINK_THRESHOLD=$1
+    return 0
+}
+
 # Helper functions.
 function ascii_color() {
     _color=${1}
@@ -287,13 +315,13 @@ function bt_export_contexts() {
     GIT_SHORT_SYM="\u21cc"
     if [[ "${NO_COLOR}" == "YES" ]] ; then
         if [[ "${BT_SHORT}" == "YES" ]] ; then
-            GIT_CMD="__git_ps1 \"${GIT_SHORT_SYM}: %s\" 2>/dev/null"
+            GIT_CMD="__git_ps1 \"${GIT_SHORT_SYM}  %s\" 2>/dev/null"
         else
             GIT_CMD="__git_ps1 \"branch: %s\" 2>/dev/null"
         fi
     else
         if [[ "${BT_SHORT}" == "YES" ]] ; then
-            GIT_CMD="__git_ps1 \"${GIT_SHORT_SYM}: ${GIT_COLOR}%s${RESET_COLOR}\" 2>/dev/null"
+            GIT_CMD="__git_ps1 \"${GIT_SHORT_SYM}  ${GIT_COLOR}%s${RESET_COLOR}\" 2>/dev/null"
         else
             GIT_CMD="__git_ps1 \"branch: ${GIT_COLOR}%s${RESET_COLOR}\" 2>/dev/null"
         fi
@@ -306,13 +334,13 @@ function bt_export_contexts() {
     VENV_SHORT_SYM="\u267b"
     if [[ "${NO_COLOR}" == "YES" ]] ; then
         if [[ "${BT_SHORT}" == "YES" ]] ; then
-            VENV_CMD="__basename_ps1 \"${VENV_SHORT_SYM}: %s\" \"\${VIRTUAL_ENV}\""
+            VENV_CMD="__basename_ps1 \"${VENV_SHORT_SYM}  %s\" \"\${VIRTUAL_ENV}\""
         else
             VENV_CMD="__basename_ps1 \"virtualenv: %s\" \"\${VIRTUAL_ENV}\""
         fi
     else
         if [[ "${BT_SHORT}" == "YES" ]] ; then
-            VENV_CMD="__basename_ps1 \"${VENV_SHORT_SYM}: ${VENV_COLOR}%s${RESET_COLOR}\" \"\${VIRTUAL_ENV}\""
+            VENV_CMD="__basename_ps1 \"${VENV_SHORT_SYM}  ${VENV_COLOR}%s${RESET_COLOR}\" \"\${VIRTUAL_ENV}\""
         else
             VENV_CMD="__basename_ps1 \"virtualenv: ${VENV_COLOR}%s${RESET_COLOR}\" \"\${VIRTUAL_ENV}\""
         fi
@@ -325,13 +353,13 @@ function bt_export_contexts() {
     BATT_SHORT_SYM="\u2622"
     if [[ "${NO_COLOR}" == "YES" ]] ; then
         if [[ "${BT_SHORT}" == "YES" ]] ; then
-            BATT_CMD="__battery_ps1 \"${BATT_SHORT_SYM}: %s%%\""
+            BATT_CMD="__battery_ps1 \"${BATT_SHORT_SYM}  %s%%\""
         else
             BATT_CMD="__battery_ps1 \"battery: %s%%\""
         fi
     else
         if [[ "${BT_SHORT}" == "YES" ]] ; then
-            BATT_CMD="__battery_ps1 \"${BATT_SHORT_SYM}: ${BATT_COLOR}%s%%${RESET_COLOR}\""
+            BATT_CMD="__battery_ps1 \"${BATT_SHORT_SYM}  ${BATT_COLOR}%s%%${RESET_COLOR}\""
         else
             BATT_CMD="__battery_ps1 \"battery: ${BATT_COLOR}%s%%${RESET_COLOR}\""
         fi
@@ -344,13 +372,13 @@ function bt_export_contexts() {
     LAVG_SHORT_SYM="\u2300"
     if [[ "${NO_COLOR}" == "YES" ]] ; then
         if [[ "${BT_SHORT}" == "YES" ]] ; then
-            LAVG_CMD="__load_averages_ps1 \"${LAVG_SHORT_SYM}: %s\""
+            LAVG_CMD="__load_averages_ps1 \"${LAVG_SHORT_SYM}  %s\""
         else
             LAVG_CMD="__load_averages_ps1 \"load: %s\""
         fi
     else
         if [[ "${BT_SHORT}" == "YES" ]] ; then
-            LAVG_CMD="__load_averages_ps1 \"${LAVG_SHORT_SYM}: ${LAVG_COLOR}%s${RESET_COLOR}\""
+            LAVG_CMD="__load_averages_ps1 \"${LAVG_SHORT_SYM}  ${LAVG_COLOR}%s${RESET_COLOR}\""
         else
             LAVG_CMD="__load_averages_ps1 \"load: ${LAVG_COLOR}%s${RESET_COLOR}\""
         fi
