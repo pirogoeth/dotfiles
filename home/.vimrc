@@ -23,6 +23,7 @@ call dein#add('Shougo/dein.vim')
 " Add or remove your Bundles here:
 call dein#add('Shougo/neosnippet.vim')
 call dein#add('Shougo/neosnippet-snippets')
+call dein#add('Shougo/neocomplcache')
 call dein#add('Shougo/vimshell')
 call dein#add('Shougo/unite.vim')
 call dein#add('Shougo/vimproc.vim', {'build': 'make'})
@@ -115,6 +116,16 @@ set hlsearch
 set hidden
 set cursorline
 
+" conceal rules loader and settings
+if has('conceal')
+  set conceallevel=1 concealcursor=c
+
+  let conceal_file = expand('~/.vim/conceals.vim')
+  if filereadable(conceal_file)
+    execute 'source' conceal_file
+  endif
+endif
+
 " Syntax / file-specfic settings
 au BufNewFile,BufReadPost *.md setlocal filetype=markdown
 au FileType java setlocal omnifunc=javacomplete#Complete
@@ -123,6 +134,8 @@ au FileType ruby setlocal ts=2 sts=2 sw=2 et ai commentstring=#\ %s
 au FileType yaml setlocal ts=2 sts=2 sw=2 et ai commentstring=#\ %s
 au FileType go setlocal noet ts=4 sw=4 commentstring=//\ %s
 au FileType python setlocal ts=4 sts=4 sw=4 et ai commentstring=#\ %s
+au FileType vim setlocal ts=2 sts=2 sw=2 et ai commentstring=\"\ %s
+au FileType * call g:LoadConcealRules()
 
 " Code folding settings
 set foldmethod=indent
@@ -184,6 +197,18 @@ vnoremap <silent> \ieb y:let @"=system('base64 -e', @")<Bar>:let @"=substitute(s
 nnoremap <silent> \ol :lopen<CR>
 nnoremap <silent> \cl :lclose<CR>
 
+" DWM bindings
+nmap <silent> <C-i> :call DWM_New()<CR>
+nmap <silent> <C-w> :exec DWM_Close()<CR>
+nmap <silent> <C-Space> :call DWM_Focus()<CR>
+nmap <silent> <C-j> :call DWM_Rotate(0)<CR>
+nmap <silent> <C-k> :call DWM_Rotate(1)<CR>
+nmap <silent> <C-h> :call DWM_ShrinkMaster()<CR>
+nmap <silent> <C-l> :call DWM_GrowMaster()<CR>
+
+" Unite bindings
+nnoremap <silent> - :Unite file buffer<CR>
+
 " CtrlP settings
 let g:ctrlp_map = '<Leader>p'
 let g:ctrlp_match_window_bottom = 0
@@ -192,15 +217,6 @@ let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = -1
-
-" CtrlP open bindings
-nmap <silent> ; :CtrlPBuffer<CR>
-nnoremap <silent> <S-F> :CtrlP<CR>
-nnoremap <silent> <S-M> :CtrlPMixed<CR>
-
-" Syntastic bindings
-nmap <silent> \S :SyntasticCheck<CR>
-nmap <silent> \s :SyntasticToggleMode<CR>
 
 " Syntastic settings
 let g:syntastic_check_on_open = 0
@@ -213,16 +229,8 @@ let g:syntastic_aggregate_errors = 1
 let g:pydoc_cmd = '/usr/local/bin/pydoc'
 let g:pydoc_open_cmd = 'vsplit'
 
-" Custom DWM mapping and settings
+" DWM settings
 let g:dwm_map_keys = 0
-
-nmap <silent> <C-i> :call DWM_New()<CR>
-nmap <silent> <C-w> :exec DWM_Close()<CR>
-nmap <silent> <C-Space> :call DWM_Focus()<CR>
-nmap <silent> <C-j> :call DWM_Rotate(0)<CR>
-nmap <silent> <C-k> :call DWM_Rotate(1)<CR>
-nmap <silent> <C-h> :call DWM_ShrinkMaster()<CR>
-nmap <silent> <C-l> :call DWM_GrowMaster()<CR>
 
 " vim-multiple-cursors mapping
 let g:multi_cursor_use_default_mapping = 0
@@ -231,15 +239,12 @@ let g:multi_cursor_prev_key = '<S-P>'
 let g:multi_cursor_skip_key = '<S-S>'
 let g:multi_cursor_quit_key = '<Esc>'
 
-" Open a unite file buffer instead of netrw
-nnoremap <silent> - :Unite file buffer<CR>
-
 " Enable deoplete!
-if has("nvim") && has("python3")
+if has('nvim') && has('python3')
   " deoplete.nvim + completion settings -- do config before enabling
   let g:deoplete#enable_at_startup = 1
   let g:deoplete#omni#functions_lua = 'xolox#lua#completefunc'
-  let g:deoplete#sources#go#gocode_binary = expand("~/.go/bin/gocode")
+  let g:deoplete#sources#go#gocode_binary = expand('~/.go/bin/gocode')
   let g:deoplete#sources#go#cgo = 1
   let g:deoplete#sources#go#cgo#libclang_path = '/usr/lib/libclang.so'
   let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
@@ -277,3 +282,53 @@ let g:lua_define_completion_mappings = 0
 " Scratchpad settings
 let g:scratch_autohide = 1
 let g:scratch_persistent_file = expand('~/.vim/scratch')
+
+" [[[[[[[[=== Additional functions
+
+" ######## REGISTER SIDE EFFECTS ########
+nmap <silent> ,, :call ToggleRegisterSideEffects()<CR>
+
+let g:reg_side_effects_disabled = 0
+function! ToggleRegisterSideEffects()
+  " Based on `http://stackoverflow.com/questions/12625722/vim-toggling-buffer-overwrite-behavior-when-deleting`
+  " -- Removes side effects from delete commands.
+
+  let maptype = 'noremap'
+  let l:remap = ['dd', 'D', 'd', 'X', 'x']
+
+  if g:reg_side_effects_disabled == 1
+    let g:reg_side_effects_disabled = 0
+    for cc in l:remap
+      execute printf('unmap %s', cc)
+    endfor
+  elseif g:reg_side_effects_disabled == 0
+    let g:reg_side_effects_disabled = 1
+    for cc in l:remap
+      execute printf('%s %s "_%s', maptype, cc, cc)
+    endfor
+  endif
+
+  if dein#tap('vim-airline')
+    call airline#update_statusline()
+  endif
+endfunction
+
+" function! AirlineSideEffects_Section(...)
+"   if g:reg_side_effects_disabled == 1
+"     call a:1.add_part('crypt', 'SIDE EFFECTS DISABLED')
+"   endif
+" 
+"   return 1
+" endfunction
+
+if dein#tap('vim-airline')
+  call airline#parts#define_condition('side_effects', 'g:reg_side_effects_disabled == 1')
+  call airline#parts#define_text('side_effects', '[SIDE EFFECTS DISABLED]')
+  call airline#parts#define_accent('side_effects', 'red')
+
+  " NOTE: Update this if section Y is customized!
+  let g:airline_section_y = airline#section#create_right(['side_effects', 'ffenc'])
+endif
+" ######## END OF REGISTER SIDE EFFECTS ########
+
+" ===]]]]]]]] END Additional functions
