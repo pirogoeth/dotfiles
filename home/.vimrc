@@ -276,3 +276,53 @@ let g:lua_define_completion_mappings = 0
 " Scratchpad settings
 let g:scratch_autohide = 1
 let g:scratch_persistent_file = expand('~/.vim/scratch')
+
+" [[[[[[[[=== Additional functions
+
+" ######## REGISTER SIDE EFFECTS ########
+nmap <silent> ,, :call ToggleRegisterSideEffects()<CR>
+
+let g:reg_side_effects_disabled = 0
+function! ToggleRegisterSideEffects()
+  " Based on `http://stackoverflow.com/questions/12625722/vim-toggling-buffer-overwrite-behavior-when-deleting`
+  " -- Removes side effects from delete commands.
+
+  let maptype = 'noremap'
+  let l:remap = ['dd', 'D', 'd', 'X', 'x']
+
+  if g:reg_side_effects_disabled == 1
+    let g:reg_side_effects_disabled = 0
+    for cc in l:remap
+      execute printf('unmap %s', cc)
+    endfor
+  elseif g:reg_side_effects_disabled == 0
+    let g:reg_side_effects_disabled = 1
+    for cc in l:remap
+      execute printf('%s %s "_%s', maptype, cc, cc)
+    endfor
+  endif
+
+  if dein#tap('vim-airline')
+    call airline#update_statusline()
+  endif
+endfunction
+
+" function! AirlineSideEffects_Section(...)
+"   if g:reg_side_effects_disabled == 1
+"     call a:1.add_part('crypt', 'SIDE EFFECTS DISABLED')
+"   endif
+" 
+"   return 1
+" endfunction
+
+if dein#tap('vim-airline')
+  call airline#parts#define_condition('side_effects', 'g:reg_side_effects_disabled == 1')
+  call airline#parts#define_text('side_effects', '[SIDE EFFECTS DISABLED]')
+  call airline#parts#define_accent('side_effects', 'red')
+
+  " NOTE: Update this if section Y is customized!
+  let g:airline_section_y = airline#section#create_right(['side_effects', 'ffenc'])
+endif
+" ######## END OF REGISTER SIDE EFFECTS ########
+
+" ===]]]]]]]] END Additional functions
