@@ -197,6 +197,15 @@ vnoremap <silent> \ieb y:let @"=system('base64 -e', @")<Bar>:let @"=substitute(s
 nnoremap <silent> \ol :lopen<CR>
 nnoremap <silent> \cl :lclose<CR>
 
+" CtrlP bindings
+nmap <silent> ; :CtrlPBuffer<CR>
+nnoremap <silent> <S-F> :CtrlP<CR>
+nnoremap <silent> <S-M> :CtrlPMixed<CR>
+
+" Syntastic bindings
+nmap <silent> \S :SyntasticCheck<CR>
+nmap <silent> \s :SyntasticToggleMode<CR>
+
 " DWM bindings
 nmap <silent> <C-i> :call DWM_New()<CR>
 nmap <silent> <C-w> :exec DWM_Close()<CR>
