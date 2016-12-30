@@ -99,7 +99,6 @@ let g:airline_symbols.space = "\ua0"
 
 " General settings
 autocmd BufEnter * set mouse=
-syntax on
 
 syntax on
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
@@ -116,16 +115,6 @@ set hlsearch
 set hidden
 set cursorline
 
-" conceal rules loader and settings
-if has('conceal')
-  set conceallevel=1 concealcursor=c
-
-  let conceal_file = expand('~/.vim/conceals.vim')
-  if filereadable(conceal_file)
-    execute 'source' conceal_file
-  endif
-endif
-
 " Syntax / file-specfic settings
 au BufNewFile,BufReadPost *.md setlocal filetype=markdown
 au FileType java setlocal omnifunc=javacomplete#Complete
@@ -135,7 +124,6 @@ au FileType yaml setlocal ts=2 sts=2 sw=2 et ai commentstring=#\ %s
 au FileType go setlocal noet ts=4 sw=4 commentstring=//\ %s
 au FileType python setlocal ts=4 sts=4 sw=4 et ai commentstring=#\ %s
 au FileType vim setlocal ts=2 sts=2 sw=2 et ai commentstring=\"\ %s
-au FileType * call g:LoadConcealRules()
 
 " Code folding settings
 set foldmethod=indent
@@ -291,6 +279,17 @@ let g:lua_define_completion_mappings = 0
 " Scratchpad settings
 let g:scratch_autohide = 1
 let g:scratch_persistent_file = expand('~/.vim/scratch')
+
+" conceal rules loader and settings
+if has('conceal')
+  set conceallevel=1 concealcursor=c
+
+  let conceal_file = expand('~/.vim/conceals.vim')
+  if filereadable(conceal_file)
+    execute 'source' conceal_file
+    au Syntax * call g:LoadConcealRules()
+  endif
+endif
 
 " [[[[[[[[=== Additional functions
 
