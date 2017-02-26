@@ -54,6 +54,7 @@ call dein#add('rhysd/vim-crystal')
 call dein#add('markcornick/vim-vagrant')
 call dein#add('lepture/vim-jinja')
 call dein#add('pearofducks/ansible-vim')
+call dein#add('rust-lang/rust.vim')
 
 " Neovim-specific plugins
 call dein#add('airblade/vim-gitgutter', {"if": has("nvim")})

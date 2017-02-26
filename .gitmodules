@@ -10,3 +10,6 @@
 [submodule "home/.dotconfig"]
 	path = home/.dotconfig
 	url = git@glow.dev.ramcloud.io:sjohnson/dotconfig.git
+[submodule "home/.zsh/plugins/antigen"]
+	path = home/.zsh/plugins/antigen
+	url = https://github.com/zsh-users/antigen.git

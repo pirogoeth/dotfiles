@@ -62,7 +62,7 @@ status.register("battery",
 #
 # Note: the network module requires PyPI package netifaces
 status.register("network",
-    interface="enp4s0f1",
+    interface="ens9",
     format_up="ether: {v4cidr}",)
 
 # Note: requires both netifaces and basiciw (for essid and quality)
