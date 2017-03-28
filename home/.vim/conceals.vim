@@ -17,8 +17,10 @@ function! g:LoadConcealRules()
   " [[[[[[[[==== BEGIN CONCEAL RULES
 
   if s:contains(['python', 'ruby'], &filetype)
-    syntax keyword    niceKeyword     lambda  conceal cchar=λ
-    syntax keyword    niceOperator    not     conceal cchar=¬
+    syntax keyword    niceKeyword     lambda    conceal cchar=λ
+    syntax keyword    niceOperator    not       conceal cchar=¬
+    syntax keyword    niceOperator    in        conceal cchar=∈
+    syntax match      niceOperator    /not in/  conceal cchar=∉
 
     let s:conceal_rules_active = 1
   endif

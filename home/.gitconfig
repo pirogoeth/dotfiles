@@ -16,3 +16,5 @@
 	sslCAInfo = /home/sean/.flynn/ca-certs/flynn-1474779706.pem
 [credential "https://git.gyrv.flynnhub.com"]
 	helper = /home/sean/.bin/flynn git-credentials
+[http "https://gopkg.in"]
+	followRedirects = true

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from i3pystatus import Status
 
 status = Status()
@@ -69,6 +70,12 @@ status.register("network",
 status.register("network",
     interface="wlp3s0",
     format_up="{essid} {quality:03.0f}%",)
+
+status.register("shell",
+    command="""nmcli -f active,name,type c | grep vpn | awk '$3 == "vpn" && $1 == "yes" { print $2 }'""",
+    format="VPN: {output}",
+    interval=5,
+    on_doubleleftclick="""nmcli c down $(nmcli -f active,name,type c | grep vpn | awk '$3 == "vpn" && $1 == "yes" { print $2 }') && ntfy -b linux "VPN down" """,)
 
 # Shows disk usage of /
 # Format:

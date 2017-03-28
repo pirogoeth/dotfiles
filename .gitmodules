@@ -9,7 +9,10 @@
 	url = https://github.com/Shougo/dein.vim
 [submodule "home/.dotconfig"]
 	path = home/.dotconfig
-	url = git@glow.dev.ramcloud.io:sjohnson/dotconfig.git
+	url = git@glow.dev.maio.me:sjohnson/dotconfig.git
 [submodule "home/.zsh/plugins/antigen"]
 	path = home/.zsh/plugins/antigen
 	url = https://github.com/zsh-users/antigen.git
+[submodule "home/.src/rust-src"]
+	path = home/.src/rust-src
+	url = https://github.com/rust-lang/rust.git

@@ -45,6 +45,9 @@ call dein#add('mtth/scratch.vim')
 call dein#add('mileszs/ack.vim')
 call dein#add('tpope/vim-commentary')
 call dein#add('wellle/targets.vim')
+call dein#add('airblade/vim-rooter')
+call dein#add('brennier/quicktex')
+call dein#add('KabbAmine/zeavim.vim')
 
 " filetype plugins
 call dein#add('xolox/vim-lua-ftplugin')
@@ -61,8 +64,10 @@ call dein#add('airblade/vim-gitgutter', {"if": has("nvim")})
 call dein#add('Shougo/deoplete.nvim', {"if": has("nvim") && has("python3")})
 call dein#add('zchee/deoplete-jedi', {"if": has("nvim") && has("python3")})
 call dein#add('zchee/deoplete-go', {"if": has("nvim"), "build": "make"})
-call dein#add('pirogoeth/deoplete-clang', {"if": has("nvim")})
+call dein#add('zchee/deoplete-clang', {"if": has("nvim")})
 call dein#add('carlitux/deoplete-ternjs', {"if": has("nvim")})
+call dein#add('artur-shaik/vim-javacomplete2', {"if": has("nvim")})
+call dein#add('sebastianmarkow/deoplete-rust', {"if": has("nvim")})
 " call dein#add('hkupty/nvimux', {"if": has("nvim")})
 
 " Vim-original-specific plugins
@@ -248,6 +253,8 @@ if has('nvim') && has('python3')
   let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
   let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/3.9.0/include'
   let g:deoplete#sources#clang#std = {'c': 'c11', 'cpp': 'c++1z', 'objc': 'c11', 'objcpp': 'c++1z'}
+  let g:deoplete#sources#rust#racer_binary = expand('~/.cargo/bin/racer')
+  let g:deoplete#sources#rust#rust_source_path = expand('~/.src/rust-src/src')
 
   call deoplete#enable()
 endif
@@ -321,14 +328,6 @@ function! ToggleRegisterSideEffects()
     call airline#update_statusline()
   endif
 endfunction
-
-" function! AirlineSideEffects_Section(...)
-"   if g:reg_side_effects_disabled == 1
-"     call a:1.add_part('crypt', 'SIDE EFFECTS DISABLED')
-"   endif
-" 
-"   return 1
-" endfunction
 
 if dein#tap('vim-airline')
   call airline#parts#define_condition('side_effects', 'g:reg_side_effects_disabled == 1')
