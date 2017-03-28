@@ -16,7 +16,7 @@ THEME_LOADED="yes";         export THEME_LOADED
 #   NO_COLOR -> Disable prompt coloring
 
 declare -a CONTEXTS
-CONTEXTS=( "SSH_CMD" "GIT_CMD" "VENV_CMD" "BATT_CMD" "LAVG_CMD" )
+export CONTEXTS=( "SSH_CMD" "GIT_CMD" "VENV_CMD" "BATT_CMD" "LAVG_CMD" )
 
 # General settings.
 RESET_COLOR="\e[0m"
