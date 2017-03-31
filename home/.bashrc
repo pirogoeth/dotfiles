@@ -45,8 +45,14 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
- # some more ls aliases
-alias ls='ls -G'
+# if exa is available, use it instead!
+_exa_path="$(which exa)"
+if [ $? == 0 ] && [ ! -z "${_exa_path}" ] ; then
+    alias ls='exa'
+fi
+
+# some more ls aliases
+alias lg='ls -G'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'

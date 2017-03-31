@@ -67,35 +67,6 @@ if [ -z "$(which ntfy 2>/dev/null)" ] ; then
     export -f ntfy
 fi
 
-# alias for gimme, if it is not present
-if [ -z "$(which gimme 2>/dev/null)" ] ; then
-    function gimme () {
-        echo " [!] gimme is not installed -- installing now!"
-        if [ -d "$HOME/.bin" ] && echo "$PATH" | grep -q "$HOME/.bin" ; then
-            # installing to local user bin directory
-            curl -sL -o "$HOME/.bin/gimme" https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
-            chmod +x "$HOME/.bin/gimme"
-        else
-            # install to system-wide bin
-            sudo curl -sL -o "${SYSTEM_BIN_TARGET}/gimme https://raw.githubusercontent.com/travis-ci/gimme/master/gimme"
-            if [ $? != 0 ] ; then
-                echo " [-] Could not download gimme to ${SYSTEM_BIN_TARGET}"
-                return 1
-            else
-                sudo chmod +x "${SYSTEM_BIN_TARGET}/gimme"
-            fi
-        fi
-
-        if [ ! -z "$(which gimme 2>/dev/null)" ] ; then
-            echo " [+] Done!"
-            unset -f gimme
-        else
-            echo " [!] Installation seemed successful, but can't find path to 'gimme'.."
-        fi
-    }
-    export -f gimme
-fi
-
 # alias for the dokku client, if it is not present
 if [ -z "$(alias | grep dokku)" ] && [ ! -d "$HOME/.dokku" ] ; then
     function dokku () {
