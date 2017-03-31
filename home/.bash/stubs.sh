@@ -51,7 +51,7 @@ fi
 if [ -z "$(which ntfy 2>/dev/null)" ] ; then
     function ntfy () {
         echo " [!] ntfy is not installed -- installing now!"
-        sudo pip -q install -U "ntfy"
+        pip --user -q install -U "ntfy"
         if [ "$?" != "0" ] ; then
             echo " [-] Pip threw an error during install.."
             return 1
@@ -65,31 +65,6 @@ if [ -z "$(which ntfy 2>/dev/null)" ] ; then
         fi
     }
     export -f ntfy
-fi
-
-# alias for the dokku client, if it is not present
-if [ -z "$(alias | grep dokku)" ] && [ ! -d "$HOME/.dokku" ] ; then
-    function dokku () {
-        echo " [!] dokku_client.sh is not installed -- installing now!"
-        if [ ! -d "$HOME/.dokku" ] ; then
-            git clone -q https://github.com/dokku/dokku.git "$HOME/.dokku"
-            if [ $? != 0 ] ; then
-                echo " [-] Git threw an error while cloning dokku.."
-            else
-                chmod +x "$HOME/.dokku/contrib/dokku_client.sh"
-                unset -f dokku
-                alias dokku="$HOME/.dokku/contrib/dokku_client.sh"
-                $HOME/.dokku/contrib/dokku_client.sh "$*"
-            fi
-        else
-            unset -f dokku
-            alias dokku="$HOME/.dokku/contrib/dokku_client.sh"
-            $HOME/.dokku/contrib/dokku_client.sh "$*"
-        fi
-    }
-    export -f dokku
-else
-    alias dokku="$HOME/.dokku/contrib/dokku_client.sh"
 fi
 
 # alias for minikube and the kvm/libvirt driver

@@ -17,3 +17,8 @@ if [[ -d "${BIN_DIR}" ]] ; then
         fi
     done
 fi
+
+# `pip install --user` likes to install binaries to `~/.local/bin`
+if [[ -d "${HOME}/.local/bin" ]] ; then
+    PATH="${PATH}:${HOME}/.local/bin"
+fi
