@@ -46,7 +46,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # if exa is available, use it instead!
-_exa_path="$(which exa)"
+_exa_path="$(which exa 2>/dev/null)"
 if [ $? == 0 ] && [ ! -z "${_exa_path}" ] ; then
     alias ls='exa'
 fi

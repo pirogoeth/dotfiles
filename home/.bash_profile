@@ -31,6 +31,10 @@ PAGER=less;  	export PAGER
 # set ENV to a file invoked each time sh is started for interactive use.
 # ENV=$HOME/.shrc; export ENV
 
+# localrc before others!
+[ -f $HOME/.localrc ] && [ -z "${LOCALRC_LOADED}" ] && \
+    source $HOME/.localrc
+
 # Check if the bashrc was loaded, and source it if not.
 [ -z "${BASHRC_LOADED}" ] && \
     source $HOME/.bashrc
@@ -38,9 +42,6 @@ PAGER=less;  	export PAGER
 # bin loader
 [ -f $HOME/.bash/load-bin.sh ] && [ -z "${BINS_LOADED}" ] && \
     source $HOME/.bash/load-bin.sh
-
-[ -f $HOME/.localrc ] && [ -z "${LOCALRC_LOADED}" ] && \
-    source $HOME/.localrc
 
 function load_all_features() {
     # enable programmable completion features (you don't need to enable
