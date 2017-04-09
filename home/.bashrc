@@ -5,7 +5,7 @@
 BASHRC_LOADED="yes";    export BASHRC_LOADED
 
 if [[ -z "${PROFILE_LOADED}" ]] ; then
-    source ~/.bash_profile
+    source ${HOME}/.bash_profile
 fi
 
  # If not running interactively, don't do anything
@@ -37,7 +37,7 @@ force_color_prompt=yes
 
  # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    test -r ${HOME}/.dircolors && eval "$(dircolors -b ${HOME}/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
 
     alias grep='grep --color=auto'
@@ -61,8 +61,8 @@ alias l='ls -CF'
  #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f ${HOME}/.bash_aliases ]; then
+    . ${HOME}/.bash_aliases
 fi
 
  # enable programmable completion features (you don't need to enable
@@ -92,8 +92,8 @@ export __PATH="$PATH"
 
 # import utility stubs
 if [[ -z "${STUBS_LOADED}" ]] ; then
-    source ~/.bash/stubs.sh
+    source ${HOME}/.bash/stubs.sh
 fi
 
 # added by travis gem
-[ -f /home/sean/.travis/travis.sh ] && source /home/sean/.travis/travis.sh
+[ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh

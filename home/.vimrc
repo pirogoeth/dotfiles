@@ -66,9 +66,13 @@ call dein#add('zchee/deoplete-jedi', {"if": has("nvim") && has("python3")})
 call dein#add('zchee/deoplete-go', {"if": has("nvim"), "build": "make"})
 call dein#add('zchee/deoplete-clang', {"if": has("nvim")})
 call dein#add('carlitux/deoplete-ternjs', {"if": has("nvim")})
-call dein#add('artur-shaik/vim-javacomplete2', {"if": has("nvim")})
 call dein#add('sebastianmarkow/deoplete-rust', {"if": has("nvim")})
+
+" disable nvimux for now, it breaks things
 " call dein#add('hkupty/nvimux', {"if": has("nvim")})
+
+" disable javacomplete for now, it breaks things.. :(
+" call dein#add('artur-shaik/vim-javacomplete2', {"if": has("nvim")})
 
 " Vim-original-specific plugins
 call dein#add('davidhalter/jedi-vim', {"if": !has("nvim")})

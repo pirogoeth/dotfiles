@@ -4,7 +4,7 @@
 PROFILE_LOADED="yes";   export PROFILE_LOADED
 
 # Load RVM, if you are using it
-[ -s $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm
+[ -s ${HOME}/.rvm/scripts/rvm ] && source ${HOME}/.rvm/scripts/rvm
 
 # export PATH=$PATH:~/.gem/ruby/2.8/bin:/opt/nginx/sbin
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/local/sbin:/usr/local/bin
@@ -37,18 +37,18 @@ PAGER=less;  	export PAGER
 
 # Check if the bashrc was loaded, and source it if not.
 [ -z "${BASHRC_LOADED}" ] && \
-    source $HOME/.bashrc
+    source ${HOME}/.bashrc
 
 # bin loader
-[ -f $HOME/.bash/load-bin.sh ] && [ -z "${BINS_LOADED}" ] && \
-    source $HOME/.bash/load-bin.sh
+[ -f ${HOME}/.bash/load-bin.sh ] && [ -z "${BINS_LOADED}" ] && \
+    source ${HOME}/.bash/load-bin.sh
 
 function load_all_features() {
     # enable programmable completion features (you don't need to enable
     # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
     # sources /etc/bash.bashrc).
     if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-        . /etc/bash_completion
+        source /etc/bash_completion
     fi
 
     # set git_ps1 magic features :]
@@ -61,32 +61,32 @@ function load_all_features() {
         source /usr/share/bash-completion/bash_completion
 
     # git completion and prompt
-    [ -f $HOME/.bash/git-completion.sh ] && \
-        source $HOME/.bash/git-completion.sh
+    [ -f ${HOME}/.bash/git-completion.sh ] && \
+        source ${HOME}/.bash/git-completion.sh
 
-    [ -f $HOME/.bash/git-prompt.sh ] && \
-        source $HOME/.bash/git-prompt.sh
+    [ -f ${HOME}/.bash/git-prompt.sh ] && \
+        source ${HOME}/.bash/git-prompt.sh
 
     # additional bash completions
-    [ -f $HOME/.bash/watson.completion ] && \
-        source $HOME/.bash/watson.completion
+    [ -f ${HOME}/.bash/watson.completion ] && \
+        source ${HOME}/.bash/watson.completion
 
     # bash theme
-    [ -f $HOME/.bash/bash-theme.sh ] && [ -z "${THEME_LOADED}" ] && \
-        source $HOME/.bash/bash-theme.sh
+    [ -f ${HOME}/.bash/bash-theme.sh ] && [ -z "${THEME_LOADED}" ] && \
+        source ${HOME}/.bash/bash-theme.sh
 
     # Override for color settings.
-    [ -f ~/.bash-theme.override ] && \
-        source ~/.bash-theme.override && \
+    [ -f ${HOME}/.bash-theme.override ] && \
+        source ${HOME}/.bash-theme.override && \
         bt_export_contexts
 
     # shutdown handler
-    [ -f $HOME/.bash/bash-shutdown.sh ] && [ -z "${SHUTDOWN_FC_LOADED}" ] && \
-        source $HOME/.bash/bash-shutdown.sh
+    [ -f ${HOME}/.bash/bash-shutdown.sh ] && [ -z "${SHUTDOWN_FC_LOADED}" ] && \
+        source ${HOME}/.bash/bash-shutdown.sh
 
     # common
-    [ -f $HOME/.bash/common.sh ] && [ -z "${COMMON_LOADED}" ] && \
-        source $HOME/.bash/common.sh
+    [ -f ${HOME}/.bash/common.sh ] && [ -z "${COMMON_LOADED}" ] && \
+        source ${HOME}/.bash/common.sh
 
     # load alias for using thefuck (thefuck on pypi)
     [ $(which thefuck 2>/dev/null || false) ] && \
