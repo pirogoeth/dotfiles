@@ -12,9 +12,8 @@
 	gpgSign = true
 [alias]
 	undo = "!f() { \\\n    git reset --hard $(git rev-parse --abbrev-ref HEAD)@{${1-1}}; \\\n}; f"
-[http "https://git.gyrv.flynnhub.com"]
-	sslCAInfo = /home/sean/.flynn/ca-certs/flynn-1474779706.pem
-[credential "https://git.gyrv.flynnhub.com"]
-	helper = /home/sean/.bin/flynn git-credentials
+	take = pull --rebase
+	puhhhhh = push --force
+	amend = commit --amend --no-edit
 [http "https://gopkg.in"]
 	followRedirects = true

@@ -28,6 +28,7 @@ call dein#add('Shougo/vimshell')
 call dein#add('Shougo/unite.vim')
 call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 call dein#add('Shougo/echodoc.vim')
+call dein#add('Shougo/denite.nvim', {"if": has("nvim")})
 
 call dein#add('flazz/vim-colorschemes')
 call dein#add('altercation/vim-colors-solarized')
@@ -61,6 +62,7 @@ call dein#add('rust-lang/rust.vim')
 
 " Neovim-specific plugins
 call dein#add('airblade/vim-gitgutter', {"if": has("nvim")})
+call dein#add('autozimu/LanguageClient-neovim', {"if": has("nvim")})
 call dein#add('Shougo/deoplete.nvim', {"if": has("nvim") && has("python3")})
 call dein#add('zchee/deoplete-jedi', {"if": has("nvim") && has("python3")})
 call dein#add('zchee/deoplete-go', {"if": has("nvim"), "build": "make"})
