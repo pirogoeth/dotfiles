@@ -1,6 +1,6 @@
 [user]
 	name = Sean Johnson
-	email = sean.johnson@maio.me
+	email = sean@mailgun.com
 [push]
 	default = simple
 	gpgSign = false

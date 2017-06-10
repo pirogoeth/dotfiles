@@ -90,6 +90,12 @@ if dein#check_install()
   call dein#install()
 endif
 
+" Additional nvim-only settings
+if has("nvim")
+  let g:python_host_prog = '/usr/bin/python2'
+  let g:python3_host_prog = '/usr/bin/python'
+endif
+
 " Required:
 scriptencoding utf-8
 filetype plugin indent on
