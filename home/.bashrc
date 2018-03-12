@@ -51,12 +51,6 @@ if [ $? == 0 ] && [ ! -z "${_exa_path}" ] ; then
     alias ls='exa'
 fi
 
-# some more ls aliases
-alias lg='ls -G'
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
  # Add an "alert" alias for long running commands.  Use like so:
  #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -94,6 +88,3 @@ export __PATH="$PATH"
 if [[ -z "${STUBS_LOADED}" ]] ; then
     source ${HOME}/.bash/stubs.sh
 fi
-
-# added by travis gem
-[ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh

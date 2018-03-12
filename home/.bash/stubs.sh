@@ -66,3 +66,27 @@ if [ -z "$(which ntfy 2>/dev/null)" ] ; then
     }
     export -f ntfy
 fi
+
+if [ -z "$(which yarn 2>/dev/null)" ] ; then
+    function yarn () {
+        if [ -d "${HOME}/.yarn/bin" ] ; then
+            export PATH="${PATH}:${HOME}/.yarn/bin"
+            hash -r
+            $(which yarn) $*
+            return $?
+        fi
+
+        if [ ! -z "$(which yarn 2>/dev/null)" ] ; then
+            $(which yarn) $*
+            return $?
+        fi
+
+        echo " [!] yarn is not installed -- installing now!"
+        curl -o- -L https://yarnpkg.com/install.sh | bash
+        if [ "$?" != "0" ] ; then
+            echo " [-] An error was raised while installing yarn..."
+            return 1
+        fi
+    }
+    export -f yarn
+fi

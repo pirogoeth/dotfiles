@@ -29,3 +29,5 @@ antigen bundle command-not-found
 
 # Apply the Antigen configuration.
 antigen apply
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -19,13 +19,18 @@ if [ -f "$HOME/.localrc" ] ; then
 fi
 
 if [ "${XDG_CURRENT_DESKTOP}" = "i3" ] ; then
+    # apply screenlayout if it exists
+    if [ -f "${HOME}/.screenlayout/default.sh" ] ; then
+        source ~/.screenlayout/default.sh
+    fi
+
     # restore i3 desktop background
     /usr/bin/env nitrogen --restore
 
     # start blueshift
-    if [ ! -z "$(which tmux)" ] && [ ! -z "$(which blueshift)" ] ; then
-        /usr/bin/env tmux new-session -d -s blueshift "/usr/bin/env blueshift -c $HOME/.config/blueshift/bedtime"
-    fi
+#    if [ ! -z "$(which tmux)" ] && [ ! -z "$(which blueshift)" ] ; then
+#        /usr/bin/env tmux new-session -d -s blueshift "/usr/bin/env blueshift -c $HOME/.config/blueshift/bedtime"
+#    fi
 
     # start compton
     if [ ! -z "$(which compton)" ] ; then

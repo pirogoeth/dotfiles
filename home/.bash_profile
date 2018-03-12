@@ -17,7 +17,7 @@ export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/local/sbin:/usr/local/
 # Setting TERM is normally done through /etc/ttys.  Do only override
 # if you're sure that you'll never log in via telnet or xterm or a
 # serial line.
-TERM="xterm-256color";   export TERM
+# TERM="xterm-256color";   export TERM
 
 # Default settings for .bash/bash-theme
 # NO_COLOR="YES";          export NO_COLOR
